@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "create": "node create_asset.js",
-    "update": "node update_asset.js",
+    "create": "node asset_create.js",
+    "update": "node asset_update.js",
+    "encrypt": "node identity_encrypt.js",
+    "decrypt": "node identity_decrypt.js",
     "eslint": "eslint *js"
   },
   "author": "Freeverse.io",
