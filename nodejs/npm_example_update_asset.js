@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable camelcase */
 // MIT License
 
 // Copyright (c) 2021 freeverse.io
@@ -20,56 +22,56 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-const identity = require ('freeverse-crypto-js');
+const identity = require('freeverse-crypto-js');
 const signer = require('freeverse-apisigner-js');
 const assert = require('assert');
 
-//PASTE REQUIRED VARIABLES FOR MUTATION HERE
-const universe_owner_pvk = ""; // universe account owner private key
-const asset_id = ""; //ID of asset to update
+// PASTE REQUIRED VARIABLES FOR MUTATION HERE
+const universe_owner_pvk = ''; // universe account owner private key
+const asset_id = ''; // ID of asset to update
 const asset_nonce_value = 0; // see https://docs.livingassets.io/quickstart/developer_quickstart_2/#example-querying-a-user-nonce-value
 const universe_id = 0; // your universe id (provided by us)
-const updated_asset_props = { //properties for asset following standard https://docs.livingassets.io/api/props_standard/
-    "name": "Supercool Dragon",
-    "description": "Legendary creature that loves ice.", 
-    "image": "ipfs://QmPAg1mjxcEQPPtqsLoEcauVedaeMH81WXDPvPx3VC5zUz", 
-    "attributes": [ 
-      {
-        "trait_type": "Rarity", 
-        "value": "Common"
-      }, 
-      {
-        "trait_type": "Level", 
-        "value": 10
-      }, 
-      {
-        "trait_type": "Weight", 
-        "value": 223.5
-      }  
-    ] 
-  }
+const updated_asset_props = { // properties for asset following standard https://docs.livingassets.io/api/props_standard/
+  name: 'Supercool Dragon',
+  description: 'Legendary creature that loves ice.',
+  image: 'ipfs://QmPAg1mjxcEQPPtqsLoEcauVedaeMH81WXDPvPx3VC5zUz',
+  attributes: [
+    {
+      trait_type: 'Rarity',
+      value: 'Common',
+    },
+    {
+      trait_type: 'Level',
+      value: 10,
+    },
+    {
+      trait_type: 'Weight',
+      value: 223.5,
+    },
+  ],
+};
 const updated_asset_metadata = { // any metadata you want
-    "private_data": "that has been updated"
-}
+  private_data: 'that has been updated',
+};
 
-assert(universe_owner_pvk != "", "Please enter a private key to run this example!")
-assert(asset_id != "", "Please enter an asset ID to run this example!")
+assert(universe_owner_pvk !== '', 'Please enter a private key to run this example!');
+assert(asset_id !== '', 'Please enter an asset ID to run this example!');
 
-//create web3 account from your private key 
-//(other forms of creating web3 account could be subsituted)
+// create web3 account from your private key
+// (other forms of creating web3 account could be subsituted)
 const universe_owner_account = identity.createNewAccount(universe_owner_pvk);
 
-//call function to create the operation and sign it with your account
+// call function to create the operation and sign it with your account
 const result = signer.updateAssetMutationInputs({
   universeOwnerAccount: universe_owner_account,
   assetId: asset_id,
   assetNonce: asset_nonce_value,
   universeIdx: universe_id,
   propsJSON: updated_asset_props,
-  metadataJSON: updated_asset_metadata
+  metadataJSON: updated_asset_metadata,
 });
 
-//inject results into final mutation to send to graphQL endpoint
+// inject results into final mutation to send to graphQL endpoint
 const assetMutation = `
   mutation { 
       execute(
