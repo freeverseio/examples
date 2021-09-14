@@ -1,0 +1,14 @@
+{
+  "name": "freeverse_nodejs_examples",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Freeverse.io",
+  "license": "MIT",
+  "dependencies": {
+    "freeverse-apisigner-js": "^1.0.0",
+    "freeverse-crypto-js": "^1.0.1"
+  }
+}
