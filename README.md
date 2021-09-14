@@ -14,7 +14,7 @@ Navigate to nodejs folder.
 Open npm_example_create_asset.js and paste your private key in the const ```universe_owner_pvk```. Paste the public address of the user for whom you wish to create an asset in the const ```new_asset_owner_id```.
 
 Run the example with 
-```node npm_example_create_asset.js````
+```npm run create````
 
 A valid GraphQL mutation, signed by your account, will be printed to console.
 
@@ -23,7 +23,7 @@ A valid GraphQL mutation, signed by your account, will be printed to console.
 Open npm_example_update_asset.js and paste your private key in the const ```universe_owner_pvk```. Paste the ID of the asset that you wish to edit in the const ```asset_id```.
 
 Run the example with 
-```node npm_example_update_asset.js```
+```npm run update```
 
 A valid GraphQL mutation, signed by your account, will be printed to console.
 
