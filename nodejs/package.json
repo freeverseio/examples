@@ -8,7 +8,7 @@
   "author": "Freeverse.io",
   "license": "MIT",
   "dependencies": {
-    "freeverse-apisigner-js": "^1.0.0",
-    "freeverse-crypto-js": "^1.0.1"
+    "freeverse-apisigner-js": "^1.0.2",
+    "freeverse-crypto-js": "^1.0.2"
   }
 }
