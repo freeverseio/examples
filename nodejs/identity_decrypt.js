@@ -33,11 +33,11 @@ assert(args.length > 1, 'You must provide an encrypted ID and password as separa
 const encrypted = args[0];
 const password = args[1];
 
-//this is the user's private key
+// this is the user's private key
 const pvk = identity.decryptIdentity(encrypted, password);
 
-//this is the freeverseID (public address) of the user
-const freeverseID = identity.freeverseIdFromPrivateKey(pvk)
+// this is the freeverseID (public address) of the user
+const freeverseID = identity.freeverseIdFromPrivateKey(pvk);
 
 const output = `
 ---------------
