@@ -13,11 +13,12 @@
   "license": "MIT",
   "dependencies": {
     "freeverse-apisigner-js": "^1.0.2",
-    "freeverse-crypto-js": "^1.0.2"
+    "freeverse-crypto-js": "^1.0.2",
+    "minimist": "^1.2.5"
   },
   "devDependencies": {
-      "eslint": "^7.32.0",
-      "eslint-config-airbnb-base": "^14.2.1",
-      "eslint-plugin-import": "^2.24.2"
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2"
   }
 }
