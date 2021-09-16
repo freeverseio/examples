@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable camelcase */
 // MIT License
 
 // Copyright (c) 2021 freeverse.io
@@ -23,26 +22,25 @@
 // SOFTWARE.
 
 const identity = require('freeverse-crypto-js');
-const assert = require('assert');
+const argv = require('minimist')(process.argv.slice(2), { string: ['pk', 'password'] });
 
-// get and check arguments
-const args = process.argv.slice(2);
-assert(args.length > 1, 'You must provide a private key and password as separate arguments.');
-
-// PASTE REQUIRED VARIABLES HERE
-const owner_pvk = args[0];
-const password = args[1];
-
-const encrypted = identity.encryptIdentity(owner_pvk, password);
-
-const output = `
+const { password, pk } = argv;
+if (!password || !pk) {
+  console.log(`
+    ---------------
+    Usage Example: 
+    node identity_encrypt.js --password 'P@ssw0rd' --pk '0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0'
+    ---------------
+    `);
+} else {
+  const encrypted = identity.encryptIdentity(pk, password);
+  console.log(`
 ---------------
 Original private key:
-${owner_pvk}
+${pk}
 Password:
 ${password}
 Encrypted ID:
 ${encrypted}
----------------`;
-
-console.log(output);
+---------------`);
+}
