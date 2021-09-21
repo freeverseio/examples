@@ -12,7 +12,7 @@
   "author": "Freeverse.io",
   "license": "MIT",
   "dependencies": {
-    "freeverse-apisigner-js": "^1.0.2",
+    "freeverse-apisigner-js": "^1.0.4",
     "freeverse-crypto-js": "^1.0.2",
     "minimist": "^1.2.5"
   },
