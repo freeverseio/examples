@@ -76,3 +76,4 @@ Run the example with
 ```
 npm run decrypt -- --password 'P@ssw0rd' --encrypted '92598e285fc171980ed645546e254ea4b2fc55f693a3175aed21e69d4773ce9eee1a05968d5b7e1049f1c5b3523719eea727aa6cc8a64b8fe53e858becdf914c'
 ```
+
