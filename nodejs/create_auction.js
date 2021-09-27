@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
+/* eslint-disable max-len */
 // MIT License
 
 // Copyright (c) 2021 freeverse.io

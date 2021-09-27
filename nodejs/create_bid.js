@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable max-len */
 /* eslint-disable camelcase */
 // MIT License
 
@@ -51,12 +52,12 @@ if (!owner_pvk) {
 
   // Auction data
   const auctionId = auction_id;
-  const price = auction_price
-  const sellerRnd = auction_rnd
-  const validUntil = valid_until
-  const timeToPay = time_to_pay
+  const price = auction_price;
+  const sellerRnd = auction_rnd;
+  const validUntil = valid_until;
+  const timeToPay = time_to_pay;
   const currencyId = currency_id;
-  const assetId = asset_id
+  const assetId = asset_id;
 
   // Bid data
   const extraPrice = extra_price; // in units of cents of EUR, so 3.45 EUR
