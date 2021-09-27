@@ -7,7 +7,11 @@
     "update": "node asset_update.js",
     "encrypt": "node identity_encrypt.js",
     "decrypt": "node identity_decrypt.js",
-    "eslint": "eslint *js"
+    "eslint": "eslint *js",
+    "create-auction": "node create_auction.js",
+    "create-bid": "node create_bid.js",
+    "create-offer": "node create_offer.js",
+    "accept-offer": "node accept_offer.js"
   },
   "author": "Freeverse.io",
   "license": "MIT",
