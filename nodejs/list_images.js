@@ -1,30 +1,38 @@
-const Web3 = require('web3');
+/* eslint-disable no-console */
+const identity = require('freeverse-crypto-js');
 const fetch = require('cross-fetch');
 const signer = require('freeverse-apisigner-js');
 
-const web3 = new Web3();
-const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'uni', 'api'] });
+const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'universe', 'endpoint'] });
 
 const {
-  pvk, api, uni,
+  pvk, endpoint, universe,
 } = argv;
 
-if (!pvk || !api || !uni) {
-  throw new Error('Please check required parameters.');
-}
-const universeOwnerAccount = web3.eth.accounts.privateKeyToAccount(pvk);
-const endpoint = api;
-const universeIdx = uni;
+const checkArgs = () => {
+  const OK = pvk && universe && endpoint;
+  if (!OK) {
+    console.log(`
+    ---------------
+    Usage Example: 
+    node list_images.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --universe '0' --endpoint 'https://api.blackhole.gorengine.com'
 
-const listImages = async ({ universeIdx }) => {
+    params:
+    * pvk: the privateKey of the universe owner
+    * universe: the (uint) index of the universe
+    * endpoint: the API endpoint
+    ---------------
+    `);
+  }
+  return OK;
+};
+
+const listImages = async ({ universeIdx, signature }) => {
   try {
-    const signature = signer.signListImages({ web3account: universeOwnerAccount, universeIdx });
     const body = {
       universeIdx: +universeIdx,
       signature: signature.signature.substr(2, signature.signature.length),
     };
-    console.log('🚀 ~ file: list_images.js ~ line 22 ~ listImages ~ body', body);
-
     const response = await fetch(`${endpoint}/images/list`, {
       method: 'POST',
       body: JSON.stringify(body),
@@ -44,12 +52,18 @@ const listImages = async ({ universeIdx }) => {
 };
 
 const run = async () => {
+  const universeOwnerAccount = identity.accountFromPrivateKey(pvk);
+  const signature = signer.signListImages({
+    web3account: universeOwnerAccount,
+    universeIdx: universe,
+  });
   try {
-    const currentUploadedImages = await listImages({ universeIdx });
-    console.log('Current Uploaded Images: ', currentUploadedImages);
+    const imgList = await listImages({ universeIdx: universe, signature });
+    console.log('Current Uploaded Images: ', imgList);
   } catch (e) {
     console.error(e);
   }
 };
 
-run();
+const OK = checkArgs();
+if (OK) run();
