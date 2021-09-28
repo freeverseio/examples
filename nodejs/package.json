@@ -11,8 +11,6 @@
     "list-images": "node list_images.js",
     "create-auction": "node create_auction.js",
     "create-bid": "node create_bid.js",
-    "create-offer": "node create_offer.js",
-    "accept-offer": "node accept_offer.js",
     "test": "npx eslint ."
   },
   "author": "Freeverse.io",
