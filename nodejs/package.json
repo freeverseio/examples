@@ -7,10 +7,9 @@
     "update": "node asset_update.js",
     "encrypt": "node identity_encrypt.js",
     "decrypt": "node identity_decrypt.js",
-    "eslint": "eslint *js",
     "upload-image": "node upload_image.js",
     "list-images": "node list_images.js",
-    "test": "eslint *js"
+    "test": "npx eslint ."
   },
   "author": "Freeverse.io",
   "license": "MIT",
