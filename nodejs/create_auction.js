@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable camelcase */
-/* eslint-disable max-len */
 // MIT License
 
 // Copyright (c) 2021 freeverse.io
@@ -48,6 +46,7 @@ const checkArgs = () => {
     ---------------
 
     params:
+    * pvk: the private key of the owner of the asset
     * assetId
     * currencyId: curreny 0: EUR
     * price: in units of cents of EUR, so 3.45 EUR
