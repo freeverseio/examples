@@ -99,27 +99,6 @@ Run the example with
 
 A valid GraphQL mutation, signed by your account, will be printed to console. You may now paste this into GraphQL Playground, or send it via CURL or whichever method of your choosing to our API endpoint.
 
-### Create a new offer
-
-View the code at ```nodejs/create_offer.js```.
-
-Run the example with 
-```
-    npm run create-offer -- --owner_pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currency_id 1 --offer_price 345 --offerer_rnd 12343322 --asset_id '36771977682424071759165601888702044610709221343463' --offer_valid_until 1632395810 --time_to_pay 172800
-```
-
-A valid GraphQL mutation, signed by your account, will be printed to console. You may now paste this into GraphQL Playground, or send it via CURL or whichever method of your choosing to our API endpoint.
-
-### Accept an offer
-
-View the code at ```nodejs/accept_offer.js```.
-
-Run the example with 
-```
-    npm run accept-offer -- --owner_pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currency_id 1 --offer_price 345 --seller_rnd 12343322 --asset_id '36771977682424071759165601888702044610709221343463' --offer_valid_until 1632395810 --time_to_pay 172800 --auction_valid_until 1632395810
-```
-
-A valid GraphQL mutation, signed by your account, will be printed to console. You may now paste this into GraphQL Playground, or send it via CURL or whichever method of your choosing to our API endpoint.
 ### Upload image
 
 View the code at ```nodejs/upload_image.js```. Open a terminal and switch to the ```nodejs/`` directory.
