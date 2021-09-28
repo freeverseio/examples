@@ -77,3 +77,23 @@ Run the example with
 npm run decrypt -- --password 'P@ssw0rd' --encrypted '92598e285fc171980ed645546e254ea4b2fc55f693a3175aed21e69d4773ce9eee1a05968d5b7e1049f1c5b3523719eea727aa6cc8a64b8fe53e858becdf914c'
 ```
 
+### Upload image
+
+View the code at ```nodejs/upload_image.js```. Open a terminal and switch to the ```nodejs/`` directory.
+
+Run the example with 
+```
+npm run upload-image -- --pvk <pvk> --uni <universe_id_int> --api <api_url> --path <local_path_to_image>
+```
+This will create an http multipart form data request and send it to <api_url> endpoint. Which will upload the image and return the name of the uploaded image in our servers.
+
+
+### List images
+
+View the code at ```nodejs/list_images.js```. Open a terminal and switch to the ```nodejs/`` directory.
+
+Run the example with 
+```
+npm run list-images -- --pvk <pvk> --uni <universe_id_int> --api <api_url>
+```
+This will send a get request to the <api_url> which will return all the images currently uploaded in the universe.
