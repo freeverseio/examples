@@ -24,42 +24,50 @@
 // SOFTWARE.
 
 const identity = require('freeverse-crypto-js');
-const { digestPutForSaleAuction } = require('freeverse-marketsigner-js');
-const argv = require('minimist')(process.argv.slice(2), { string: ['owner_pvk', 'currency_id', 'auction_price', 'auction_rnd', 'valid_until', 'time_to_pay', 'asset_id'] });
+const { digestPutForSaleAuction, sign } = require('freeverse-marketsigner-js');
+const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'currencyId', 'price', 'rnd', 'validUntil', 'timeToPay', 'assetId'] });
 
 const {
-  owner_pvk,
-  currency_id,
-  auction_price,
-  auction_rnd,
-  valid_until,
-  time_to_pay,
-  asset_id,
+  pvk,
+  currencyId,
+  price,
+  rnd,
+  validUntil,
+  timeToPay,
+  assetId,
 } = argv;
 
-if (!owner_pvk || !asset_id || !currency_id || !auction_price || !auction_rnd || !valid_until || !time_to_pay) {
-  console.log(`
+const checkArgs = () => {
+  const OK = (assetId && pvk && currencyId && price && rnd && validUntil && timeToPay);
+  console.log(assetId, pvk, currencyId, price, rnd, validUntil, timeToPay);
+  if (!OK) {
+    console.log(`
     ---------------
     Usage Example: 
-    npm run create-auction -- --owner_pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currency_id 0 --auction_price 345 --auction_rnd 12342234 --valid_until '1632395810' --time_to_pay '172800' --asset_id '36771977682424071759165601888702044610709221343463' 
+    node create_auction.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currencyId 0 --price 345 --rnd 12342234 --validUntil '1632395810' --timeToPay '172800' --assetId '36771977682424071759165601888702044610709221343463' 
     ---------------
-    `);
-} else {
-  const assetId = asset_id;
-  const currencyId = currency_id; // curreny 0: EUR
-  const price = auction_price; // in units of cents of EUR, so 3.45 EUR
-  const rnd = auction_rnd; // a random number, to be generated in front end for each different query
-  const validUntil = valid_until; // when will the auction end (Thursday, 23 September 2021 11:16:50)
-  const timeToPay = time_to_pay; // the amount of seconds avaiable to max bidder to pay (2 days)
 
+    params:
+    * assetId
+    * currencyId: curreny 0: EUR
+    * price: in units of cents of EUR, so 3.45 EUR
+    * rnd: a random number, to be generated in front end for each different query
+    * validUntil: when will the auction end (Thursday, 23 September 2021 11:16:50)
+    * timeToPay: the amount of seconds avaiable to max bidder to pay (2 days)
+    `);
+  }
+  return OK;
+};
+
+const run = () => {
   const digest = digestPutForSaleAuction({
     currencyId, price, rnd, validUntil, timeToPay, assetId,
   });
 
   // create web3 account from your private key
   // (other forms of creating web3 account could be subsituted)
-  const asset_owner_account = identity.accountFromPrivateKey(owner_pvk);
-  const { signature } = asset_owner_account.sign(digest);
+  const assetOwnerAccount = identity.accountFromPrivateKey(pvk);
+  const signature = sign({ digest, web3account: assetOwnerAccount });
 
   // inject results into final mutation to send to graphQL endpoint
   const assetMutation = `
@@ -78,4 +86,7 @@ mutation {
 }`;
 
   console.log(assetMutation);
-}
+};
+
+const OK = checkArgs();
+if (OK) run();

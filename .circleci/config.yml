@@ -1,0 +1,19 @@
+version: 2.1
+
+jobs:
+  testing:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - checkout
+      - run: (cd nodejs && npm ci)
+      - run: (cd nodejs && npm test)
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - testing:
+          filters:
+            tags:
+              only: /.*/

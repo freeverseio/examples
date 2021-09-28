@@ -120,3 +120,23 @@ Run the example with
 ```
 
 A valid GraphQL mutation, signed by your account, will be printed to console. You may now paste this into GraphQL Playground, or send it via CURL or whichever method of your choosing to our API endpoint.
+### Upload image
+
+View the code at ```nodejs/upload_image.js```. Open a terminal and switch to the ```nodejs/`` directory.
+
+Run the example with 
+```
+npm run upload-image -- --pvk <pvk> --uni <universe_id_int> --api <api_url> --path <local_path_to_image>
+```
+This will create an http multipart form data request and send it to <api_url> endpoint. Which will upload the image and return the name of the uploaded image in our servers.
+
+
+### List images
+
+View the code at ```nodejs/list_images.js```. Open a terminal and switch to the ```nodejs/`` directory.
+
+Run the example with 
+```
+npm run list-images -- --pvk <pvk> --uni <universe_id_int> --api <api_url>
+```
+This will send a get request to the <api_url> which will return all the images currently uploaded in the universe.
