@@ -11,6 +11,8 @@
     "list-images": "node list_images.js",
     "create-auction": "node create_auction.js",
     "create-bid": "node create_bid.js",
+    "create-buynow": "node create_buy_now.js",
+    "create-buynow-payment": "node create_buy_now_payment.js",
     "test": "npx eslint ."
   },
   "author": "Freeverse.io",
@@ -20,7 +22,7 @@
     "form-data": "^4.0.0",
     "freeverse-apisigner-js": "^1.0.4",
     "freeverse-crypto-js": "^1.0.2",
-    "freeverse-marketsigner-js": "^1.0.2",
+    "freeverse-marketsigner-js": "^1.0.3",
     "ipfs-only-hash": "4.0.0",
     "minimist": "^1.2.5"
   },

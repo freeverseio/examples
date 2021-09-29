@@ -48,7 +48,7 @@ const checkArgs = () => {
     params:
     * pvk: the private key of the owner of the asset
     * assetId
-    * currencyId: curreny 0: EUR
+    * currencyId: currency 0: EUR
     * price: in units of cents of EUR, so 3.45 EUR
     * rnd: a random number, to be generated in front end for each different query
     * validUntil: when will the auction end (Thursday, 23 September 2021 11:16:50)
@@ -67,6 +67,7 @@ const run = () => {
   // (other forms of creating web3 account could be subsituted)
   const assetOwnerAccount = identity.accountFromPrivateKey(pvk);
   const signature = sign({ digest, web3account: assetOwnerAccount });
+  const signatureToSend = signature.substring(2, signature.length);
 
   // inject results into final mutation to send to graphQL endpoint
   const assetMutation = `
@@ -79,7 +80,7 @@ mutation {
       rnd: ${rnd}, 
       validUntil: "${validUntil}", 
       timeToPay: "${timeToPay}", 
-      signature: "${signature}",
+      signature: "${signatureToSend}",
     }
   )
 }`;
