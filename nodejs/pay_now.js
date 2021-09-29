@@ -33,7 +33,6 @@ const {
 
 const checkArgs = () => {
   const OK = (pvk && auctionId && amount);
-  console.log(auctionId, pvk, amount);
   if (!OK) {
     console.log(`
     ---------------
@@ -42,18 +41,16 @@ const checkArgs = () => {
     ---------------
 
     params:
-    * pvk: the private key of the buyer that won that has the highest paying bid
+    * pvk: the private key of the buyer (winner of the auction)
     * auctionId
-    * amount: price of the auction float with 2 decimal places
+    * amount: price to pay; float with 2 decimal places
     `);
   }
   return OK;
 };
 
 const run = () => {
-  const digest = digestPayNow({
-    auctionId, amount,
-  });
+  const digest = digestPayNow({ auctionId, amount });
 
   // create web3 account from your private key
   // (other forms of creating web3 account could be subsituted)
