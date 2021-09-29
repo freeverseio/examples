@@ -11,6 +11,7 @@
     "list-images": "node list_images.js",
     "create-auction": "node create_auction.js",
     "create-bid": "node create_bid.js",
+    "pay-now": "node pay_now.js",
     "create-buynow": "node create_buy_now.js",
     "create-buynow-payment": "node create_buy_now_payment.js",
     "test": "npx eslint ."
