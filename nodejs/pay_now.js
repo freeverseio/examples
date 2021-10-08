@@ -37,13 +37,13 @@ const checkArgs = () => {
     console.log(`
     ---------------
     Usage Example: 
-    node pay_now.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --auctionId '0x81d6b8596f19fbf11f9484642cfb18e4763149ed1eabe5d514007e3d16b89399' --amount '12.32'
+    node pay_now.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --auctionId '0x81d6b8596f19fbf11f9484642cfb18e4763149ed1eabe5d514007e3d16b89399' --amount '1000'
     ---------------
 
     params:
     * pvk: the private key of the buyer (winner of the auction)
     * auctionId
-    * amount: price to pay; float with 2 decimal places
+    * amount: price to pay; in units of cents of EUR 
     `);
   }
   return OK;
