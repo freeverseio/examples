@@ -22,27 +22,27 @@
 // SOFTWARE.
 
 const identity = require('freeverse-crypto-js');
-const { digestPutForSaleAuction, sign } = require('freeverse-marketsigner-js');
-const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'currencyId', 'price', 'rnd', 'validUntil', 'timeToPay', 'assetId'] });
+const { digestPutForSaleAuction, sign, plannedVerse } = require('freeverse-marketsigner-js');
+const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'currencyId', 'price', 'rnd', 'timeValidUntil', 'timeToPay', 'assetId'] });
 
 const {
   pvk,
   currencyId,
   price,
   rnd,
-  validUntil,
+  timeValidUntil,
   timeToPay,
   assetId,
 } = argv;
 
 const checkArgs = () => {
-  const OK = (assetId && pvk && currencyId && price && rnd && validUntil && timeToPay);
-  console.log(assetId, pvk, currencyId, price, rnd, validUntil, timeToPay);
+  const OK = (assetId && pvk && currencyId && price && rnd && timeValidUntil && timeToPay);
+  console.log(assetId, pvk, currencyId, price, rnd, timeValidUntil, timeToPay);
   if (!OK) {
     console.log(`
     ---------------
     Usage Example: 
-    node create_auction.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currencyId 0 --price 345 --rnd 12342234 --validUntil '1632395810' --timeToPay '172800' --assetId '36771977682424071759165601888702044610709221343463' 
+    node create_auction.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currencyId 0 --price 345 --rnd 12342234 --timeValidUntil '1632395810' --timeToPay '172800' --assetId '36771977682424071759165601888702044610709221343463' 
     ---------------
 
     params:
@@ -51,7 +51,7 @@ const checkArgs = () => {
     * currencyId: currency 0: EUR
     * price: in units of cents of EUR, so 3.45 EUR
     * rnd: a random number, to be generated in front end for each different query
-    * validUntil: when will the auction end (Thursday, 23 September 2021 11:16:50)
+    * timeValidUntil: when will the auction end (Thursday, 23 September 2021 11:16:50)
     * timeToPay: the amount of seconds avaiable to max bidder to pay (2 days)
     `);
   }
@@ -59,8 +59,40 @@ const checkArgs = () => {
 };
 
 const run = () => {
+  // First we need to transform timeValidUntil and timeToPay to units of verse.
+  // Verse is the Layer-2 equivalent of 'block' for a layer-1.
+  // Each verse, which take place at 15 min intervals, the layer-2 is synced with layer-1.
+  // To do the conversion, we need to first query 3 params: 
+  // - referenceVerse, referenceTime, verseInterval
+  // These do not change, so you can query just once per session.
+  const getVerseReference = `
+query getVerseReference {
+  allMultiverses {
+    nodes {
+      referenceVerse
+      referenceTime
+      verseInterval
+    }
+  }
+}
+`;
+  console.log(getVerseReference);
+  // Imagine we get:
+  const verseInterval = 900; // 15 min
+  const referenceTime = 1631531810; // Monday, 13 September 2021 11:16:50
+  const referenceVerse = 1;
+  // You can then convert to verses using the market lib:
+  const validUntil = plannedVerse({
+    time: timeValidUntil,
+    referenceVerse,
+    referenceTime,
+    verseInterval,
+  });
+  const versesToPay = Math.ceil(timeToPay / verseInterval);
+
+  // The digest can finally be built:
   const digest = digestPutForSaleAuction({
-    currencyId, price, rnd, validUntil, timeToPay, assetId,
+    currencyId, price, rnd, validUntil, versesToPay, assetId,
   });
 
   // create web3 account from your private key
@@ -79,7 +111,7 @@ mutation {
       price: ${price}, 
       rnd: ${rnd}, 
       validUntil: "${validUntil}", 
-      timeToPay: "${timeToPay}", 
+      versesToPay: "${versesToPay}", 
       signature: "${signatureToSend}",
     }
   )
