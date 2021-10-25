@@ -27,13 +27,7 @@ const argv = require('minimist')(process.argv.slice(2), {
   string: [
     'pvk',
     'auctionId',
-    'currencyId',
-    'price',
-    'sellerRnd',
-    'validUntil',
-    'timeToPay',
-    'assetId',
-    'bidderRnd',
+    'rnd',
     'extraPrice',
   ],
 });
