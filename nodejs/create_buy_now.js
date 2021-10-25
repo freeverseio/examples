@@ -22,26 +22,27 @@
 // SOFTWARE.
 
 const identity = require('freeverse-crypto-js');
-const { digestPutForSaleBuyNow, sign } = require('freeverse-marketsigner-js');
-const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'currencyId', 'price', 'rnd', 'validUntil', 'assetId'] });
+const { digestPutForSaleBuyNow, sign, plannedVerse } = require('freeverse-marketsigner-js');
+const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'currencyId', 'price', 'rnd', 'timeValidUntil', 'assetId'] });
+const { queryReferences } = require('./query_references');
 
 const {
   pvk,
   currencyId,
   price,
   rnd,
-  validUntil,
+  timeValidUntil,
   assetId,
 } = argv;
 
 const checkArgs = () => {
-  const OK = (assetId && pvk && currencyId && price && rnd && validUntil);
+  const OK = (assetId && pvk && currencyId && price && rnd && timeValidUntil);
   if (!OK) {
     console.log(`
     ---------------
     Function: puts an asset for sale in BuyNow mode (as opposite to auction) 
     Usage Example: 
-    node create_buy_now.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currencyId 0 --price 345 --rnd 12342234 --validUntil '1632395810' --assetId '36771977682424071759165601888702044610709221343463' 
+    node create_buy_now.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currencyId 0 --price 345 --rnd 12342234 --timeValidUntil '1632395810' --assetId '36771977682424071759165601888702044610709221343463' 
     ---------------
 
     params:
@@ -50,13 +51,23 @@ const checkArgs = () => {
     * currencyId: currency 0: EUR
     * price: in units of cents of EUR, so 345 = 3.45 EUR
     * rnd: a random number, to be generated in front end for each different query
-    * validUntil: when will the buynow end (Thursday, 23 September 2021 11:16:50)
+    * timeValidUntil: when will the buynow end (Thursday, 23 September 2021 11:16:50)
     `);
   }
   return OK;
 };
 
 const run = () => {
+  // First convert all time quantities from secs to verse:
+  const references = queryReferences();
+  // Convert timeValidUntil from secs to verse:
+  const validUntil = plannedVerse({
+    time: timeValidUntil,
+    referenceVerse: references.referenceVerse,
+    referenceTime: references.referenceTime,
+    verseInterval: references.verseInterval,
+  });
+  // The digest can finally be built:
   const digest = digestPutForSaleBuyNow({
     currencyId, price, rnd, validUntil, assetId,
   });

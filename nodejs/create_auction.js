@@ -22,27 +22,28 @@
 // SOFTWARE.
 
 const identity = require('freeverse-crypto-js');
-const { digestPutForSaleAuction, sign } = require('freeverse-marketsigner-js');
-const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'currencyId', 'price', 'rnd', 'validUntil', 'timeToPay', 'assetId'] });
+const { digestPutForSaleAuction, sign, plannedVerse } = require('freeverse-marketsigner-js');
+const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'currencyId', 'price', 'rnd', 'timeValidUntil', 'timeToPay', 'assetId'] });
+const { queryReferences } = require('./query_references');
 
 const {
   pvk,
   currencyId,
   price,
   rnd,
-  validUntil,
+  timeValidUntil,
   timeToPay,
   assetId,
 } = argv;
 
 const checkArgs = () => {
-  const OK = (assetId && pvk && currencyId && price && rnd && validUntil && timeToPay);
-  console.log(assetId, pvk, currencyId, price, rnd, validUntil, timeToPay);
+  const OK = (assetId && pvk && currencyId && price && rnd && timeValidUntil && timeToPay);
+  console.log(assetId, pvk, currencyId, price, rnd, timeValidUntil, timeToPay);
   if (!OK) {
     console.log(`
     ---------------
     Usage Example: 
-    node create_auction.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currencyId 0 --price 345 --rnd 12342234 --validUntil '1632395810' --timeToPay '172800' --assetId '36771977682424071759165601888702044610709221343463' 
+    node create_auction.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currencyId 0 --price 345 --rnd 12342234 --timeValidUntil '1632395810' --timeToPay '172800' --assetId '36771977682424071759165601888702044610709221343463' 
     ---------------
 
     params:
@@ -51,7 +52,7 @@ const checkArgs = () => {
     * currencyId: currency 0: EUR
     * price: in units of cents of EUR, so 3.45 EUR
     * rnd: a random number, to be generated in front end for each different query
-    * validUntil: when will the auction end (Thursday, 23 September 2021 11:16:50)
+    * timeValidUntil: when will the auction end (Thursday, 23 September 2021 11:16:50)
     * timeToPay: the amount of seconds avaiable to max bidder to pay (2 days)
     `);
   }
@@ -59,8 +60,21 @@ const checkArgs = () => {
 };
 
 const run = () => {
+  // First convert all time quantities from secs to verse:
+  const references = queryReferences();
+  // Convert timeValidUntil from secs to verse:
+  const validUntil = plannedVerse({
+    time: timeValidUntil,
+    referenceVerse: references.referenceVerse,
+    referenceTime: references.referenceTime,
+    verseInterval: references.verseInterval,
+  });
+  // Convert timeToPay from secs to verse:
+  const versesToPay = Math.ceil(timeToPay / references.verseInterval);
+
+  // The digest can finally be built:
   const digest = digestPutForSaleAuction({
-    currencyId, price, rnd, validUntil, timeToPay, assetId,
+    currencyId, price, rnd, validUntil, versesToPay, assetId,
   });
 
   // create web3 account from your private key
@@ -79,7 +93,7 @@ mutation {
       price: ${price}, 
       rnd: ${rnd}, 
       validUntil: "${validUntil}", 
-      timeToPay: "${timeToPay}", 
+      versesToPay: "${versesToPay}", 
       signature: "${signatureToSend}",
     }
   )
