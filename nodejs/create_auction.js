@@ -58,11 +58,11 @@ const checkArgs = () => {
   return OK;
 };
 
-const run = () => {
+const queryReferences = () => {
   // First we need to transform timeValidUntil and timeToPay to units of verse.
   // Verse is the Layer-2 equivalent of 'block' for a layer-1.
   // Each verse, which take place at 15 min intervals, the layer-2 is synced with layer-1.
-  // To do the conversion, we need to first query 3 params: 
+  // To do the conversion, we need to first query 3 params:
   // - referenceVerse, referenceTime, verseInterval
   // These do not change, so you can query just once per session.
   const getVerseReference = `
@@ -78,17 +78,25 @@ query getVerseReference {
 `;
   console.log(getVerseReference);
   // Imagine we get:
-  const verseInterval = 900; // 15 min
-  const referenceTime = 1631531810; // Monday, 13 September 2021 11:16:50
-  const referenceVerse = 1;
-  // You can then convert to verses using the market lib:
+  return {
+    verseInterval: 900, // 15 min
+    referenceTime: 1631531810, // Monday, 13 September 2021 11:16:50
+    referenceVerse: 1,
+  };
+};
+
+const run = () => {
+  // First convert all time quantities from secs to verse:
+  const references = queryReferences();
+  // Convert timeValidUntil from secs to verse:
   const validUntil = plannedVerse({
     time: timeValidUntil,
-    referenceVerse,
-    referenceTime,
-    verseInterval,
+    referenceVerse: references.referenceVerse,
+    referenceTime: references.referenceTime,
+    verseInterval: references.verseInterval,
   });
-  const versesToPay = Math.ceil(timeToPay / verseInterval);
+  // Convert timeToPay from secs to verse:
+  const versesToPay = Math.ceil(timeToPay / references.verseInterval);
 
   // The digest can finally be built:
   const digest = digestPutForSaleAuction({
