@@ -22,7 +22,7 @@
 // SOFTWARE.
 
 const identity = require('freeverse-crypto-js');
-const { digestPutForSaleBuyNow, sign, plannedVerse } = require('freeverse-marketsigner-js');
+const { digestPutForSaleBuyNow, sign, getExpiryData } = require('freeverse-marketsigner-js');
 const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'currencyId', 'price', 'rnd', 'timeValidUntil', 'assetId'] });
 const { queryReferences } = require('./query_references');
 
@@ -60,13 +60,16 @@ const checkArgs = () => {
 const run = () => {
   // First convert all time quantities from secs to verse:
   const references = queryReferences();
+
   // Convert timeValidUntil from secs to verse:
-  const validUntil = plannedVerse({
+  const expirationData = getExpiryData({
     time: timeValidUntil,
     referenceVerse: references.referenceVerse,
     referenceTime: references.referenceTime,
     verseInterval: references.verseInterval,
   });
+  const validUntil = expirationData.lastValidVerse;
+
   // The digest can finally be built:
   const digest = digestPutForSaleBuyNow({
     currencyId, price, rnd, validUntil, assetId,
