@@ -38,6 +38,14 @@ if (!pvk || !owner || !uni || !nonce) {
     ---------------
     `);
 } else {
+  // IMPORTANT NOTE ON IMAGE:
+  // The image needs to be uploaded (see upload_image.js example)
+  // In doing so, the query returns the IPFS CID.
+  // That CID needs to be used here in the image field, with format:
+  //    image: 'ipfs://CID'
+  //
+  // Additionally, you can upload to IPFS by your own means too
+  // (anyone can, after all, including the asset owner, at any point in time)
   const universe_owner_pvk = pvk; // private key of universe owner
   const new_asset_owner_id = owner; // new owner of created asset
   const owner_nonce_value = nonce; // see https://docs.livingassets.io/quickstart/developer_quickstart_2/#example-querying-a-user-nonce-value

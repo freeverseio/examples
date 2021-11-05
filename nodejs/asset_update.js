@@ -38,6 +38,15 @@ if (!pvk || !asset || !uni || !nonce) {
     ---------------
     `);
 } else {
+  // IMPORTANT NOTE ON IMAGES:
+  // If you modify the image, then it needs to be uploaded (see upload_image.js example)
+  // In doing so, the query returns the IPFS CID.
+  // That CID needs to be used here in the image field, with format:
+  //    image: 'ipfs://CID'
+  //
+  // Additionally, you can upload to IPFS by your own means too
+  // (anyone can, after all, including the asset owner, at any point in time)
+
   const universe_owner_pvk = pvk; // universe account owner private key
   const asset_id = asset; // ID of asset to update
   const asset_nonce_value = nonce; // see https://docs.livingassets.io/quickstart/developer_quickstart_2/#example-querying-a-user-nonce-value
