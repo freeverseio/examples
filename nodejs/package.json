@@ -9,6 +9,7 @@
     "decrypt": "node identity_decrypt.js",
     "upload-image": "node upload_image.js",
     "list-images": "node list_images.js",
+    "link-id": "node link_id_to_email.js",
     "create-auction": "node create_auction.js",
     "create-bid": "node create_bid.js",
     "pay-now": "node pay_now.js",
