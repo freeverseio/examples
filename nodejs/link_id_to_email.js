@@ -53,6 +53,11 @@ const checkArgs = () => {
 };
 
 const run = () => {
+  // Note: before doing anything related to asset trading
+  // the user's ID needs to be registered.
+  // This registration needs to be done only once
+  // for a given user's ID.
+
   const randomPvk = '0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0';
   const userAccount = identity.accountFromPrivateKey(randomPvk);
   const userId = userAccount.address;

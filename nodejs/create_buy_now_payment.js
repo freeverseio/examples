@@ -56,6 +56,12 @@ const checkArgs = () => {
 };
 
 const run = () => {
+  // Note: before doing anything related to asset trading
+  // the user's ID needs to be registered.
+  // This registration needs to be done only once
+  // for a given user's ID.
+  // See the link_id_to_email.js examples
+
   const digest = digestBuyNowFromBuyNowId({ buyNowId });
 
   // create web3 account from your private key
