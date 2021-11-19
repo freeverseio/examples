@@ -54,7 +54,8 @@ if (!pvk || !asset || !uni || !nonce) {
   const updated_asset_props = { // properties for asset following standard https://docs.livingassets.io/api/props_standard/
     name: 'Supercool Dragon',
     description: 'Legendary creature that loves ice.',
-    image: 'ipfs://QmPAg1mjxcEQPPtqsLoEcauVedaeMH81WXDPvPx3VC5zUz',
+    image: 'ipfs://QmPCHHeL1i6ZCUnQ1RdvQ5G3qccsjgQF8GkJrWAm54kdtB',
+    animation_url: 'ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j',
     attributes: [
       {
         trait_type: 'Rarity',
