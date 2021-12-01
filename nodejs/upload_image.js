@@ -24,7 +24,7 @@ const checkArgs = () => {
     * pvk: the privateKey of the universe owner
     * universe: the (uint) index of the universe
     * endpoint: the API endpoint
-    * path: the local path to your image
+    * path: the local path to your image; currently supports jpeg, png, gif, webp, tiff.
     ---------------
     `);
   }
