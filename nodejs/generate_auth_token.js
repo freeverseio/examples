@@ -47,5 +47,7 @@ if (!pvk) {
   console.log(`
 ---------------
 Generated token: ${token}
+Include it in http header as: 
+  headers: { Authorization: Freeverse ${token} }
 ---------------`);
 }
