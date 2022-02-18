@@ -40,7 +40,7 @@ if (!pvk || !owner || !uni || !nonce) {
     * pvk: the private key of the owner of the universe
     * owner: the id of the owner to whom the asset will be assigned
     * uni: the universe id
-    * nonce: the Number used ONly onCE, see https://docs.livingassets.io/quickstart/developer_quickstart_2/#example-querying-a-user-nonce-value
+    * nonce: the Number used ONly onCE, see the get_user_nonce.js example
     `);
 } else {
   // IMPORTANT NOTE ON IMAGE:
