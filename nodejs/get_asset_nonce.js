@@ -5,12 +5,11 @@
 const program = require('commander');
 const fetch = require('isomorphic-fetch');
 
-// Returns the nonce to be used in user nonce, to be used for create_asset queries.
+// Returns the asset_nonce, to be used for set_asset_props queries.
 // Usage:
-// node get_nonce.js -a 0xF0429b534E1db4c5D0F700517B676f5EB7345AB2 -u 2 -e 'https://api.blackhole.gorengine.com'
+// node get_asset_nonce.js -a 188719626670054514197768276717903519481837244405720993530482594756955 -e 'https://api.blackhole.gorengine.com'
 program
-  .requiredOption('-a, --address <hex>')
-  .requiredOption('-u, --universe <int>')
+  .requiredOption('-a, --assetId <hex>')
   .requiredOption('-e, --endpoint <url>')
   .parse(process.argv);
 
@@ -18,13 +17,13 @@ const opts = program.opts();
 Object.keys(opts).forEach((key) => console.log(`${key}: ${opts[key]}`));
 
 const {
-  address, universe, endpoint,
+  assetId, endpoint,
 } = program.opts();
 
-async function getUserNonce(freeverseId, universeId) {
+async function getAssetNonce(id) {
   const getNonceQuery = `
-        query($freeverseId: String!, $universe: Int!) {
-            usersUniverseByUserIdAndUniverseId(universeId: $universe, userId: $freeverseId){
+        query($id: String!) {
+          assetById(id: $id){
               nonce
             }
           }
@@ -36,18 +35,17 @@ async function getUserNonce(freeverseId, universeId) {
     body: JSON.stringify({
       query: getNonceQuery,
       variables: {
-        freeverseId,
-        universe: +universeId,
+        id,
       },
     }),
   });
   const result = await response.json();
-  const data = result.data.usersUniverseByUserIdAndUniverseId;
+  const data = result.data.assetById;
   return data === null ? 0 : data.nonce;
 }
 
 (async () => {
-  const nonce = await getUserNonce(address, universe);
+  const nonce = await getAssetNonce(assetId);
   console.log('obtained noce: ', nonce);
 }
 )();
