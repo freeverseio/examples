@@ -113,19 +113,19 @@ async function run() {
 
   // The call to the .pay function just requires this struct to be built
   // from the params received in the create_buynow_payment mutation
-  const buyerAccount = identity.accountFromPrivateKey(pvk);
+  const buyerAddr = identity.freeverseIdFromPrivateKey(pvk);
   const paymentData = {
     paymentId,
     amount: price.toString(),
     feeBPS: feeBPS.toString(),
     universeId: universeId.toString(),
     deadline: deadline.toString(),
-    buyer: buyerAccount.address,
+    buyer: buyerAddr,
     seller,
   };
 
   // This is the blockchain contract TX sending. Handle events as usual.
-  paymentsInstance.pay({ paymentData, signature: operatorSig, from: buyerAccount.address })
+  paymentsInstance.pay({ paymentData, signature: operatorSig, from: buyerAddr })
     .once('receipt', onReceiptHandler)
     .on('confirmation', onConfirmationHandler)
     .on('error', (err) => {

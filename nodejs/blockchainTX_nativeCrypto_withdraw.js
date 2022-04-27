@@ -2,6 +2,9 @@
 // MIT License
 
 const Eth = require('web3-eth');
+
+const { Web3ProviderEngine, PrivateKeyWalletSubprovider, RPCSubprovider } = require('@0x/subproviders');
+const { providerUtils } = require('@0x/utils');
 const identity = require('freeverse-crypto-js');
 const { NativeCryptoPayments } = require('freeverse-marketsigner-js');
 const argv = require('minimist')(process.argv.slice(2), {
@@ -12,7 +15,8 @@ const argv = require('minimist')(process.argv.slice(2), {
     'operatorSig',
     'paymentId',
     'rpcUrl',
-    'assetTransferSuccess'
+    'chainId',
+    'assetTransferSuccess',
   ],
 });
 
@@ -23,15 +27,17 @@ const {
   operatorSig,
   paymentId,
   rpcUrl,
+  chainId,
   assetTransferSuccess,
 } = argv;
 
 const checkArgs = () => {
   const OK = (
-    paymentsAddr && confirmationBlock && pvk && operatorSig && paymentId && rpcUrl && assetTransferSuccess
-    );
-    if (!OK) {
-      console.log(`
+    paymentsAddr && confirmationBlock && pvk && operatorSig
+    && paymentId && rpcUrl && assetTransferSuccess
+  );
+  if (!OK) {
+    console.log(`
       ---------------
       Function: calls NativePayments blockchain smart contract method 'finalizeAndWithdraw'
       Usage Example: 
@@ -40,58 +46,81 @@ const checkArgs = () => {
       
       params:
       * pvk: the private key of the seller
-      * operatorSig: signature that FV issues that allows the seller address to call the contract method finalizeAndWithdraw returned by the cashout mutation
-      * paymentId: id returned by the cashout mutation
-      * assetTransferSuccess: boolean returned by cashout mutation
-      * paymentsAddr: the address of the smart contract that acts as escrow returned by allSupportedCryptocurrencies query
-      * confirmationBlock: number of blocks to wait after tx hash has been mined to consider it as confirmed returned by allSupportedCryptocurrencies query
-      `);
-    }
-    return OK;
-  };
-  let isConfirmed = false;
-  
-  const _onConfirmationHandler = (confirmationNumber) => {
-    if (confirmationNumber >= confirmationBlock && !isConfirmed) {
-      console.log("Tx confirmed on ", confirmationBlock)
-      isConfirmed = true;
-    }
-  };
 
-  const _onReceiptHandler = (receipt) => {
-    console.log("Receipt received:", JSON.stringify(receipt))
-    process.exit(1)
-  };
-  
-  const run = async () => {
-  /* Note: before running this transaction a call to the mutation cashout must be done
+      params related to the blockchain where the escrow contract is deployed:
+      * rpcUrl: the url of a (public) node of that blockchain
+      * chainId: the chainId of the blockchain
+      * paymentsAddr: the address of the smart contract that acts as escrow
+      * confirmationBlock: number of blocks that the provider waits after tx hash has been mined to call the onConfirmed method
+
+      params related to the payment transaction, all of them returned when calling the cashout mutation
+      * paymentId: id that identifies the payment in the escrow contract
+      * assetTransferSuccess: boolean indicating the success or otherwise of the asset transfer from seller to buyer
+      * operatorSig: the signature that FV issues, which certifies all of the params above.
+      `);
+  }
+  return OK;
+};
+
+const onConfirmationHandler = (confirmationNumber) => {
+  if (confirmationNumber >= confirmationBlock) {
+    console.log('Tx confirmed on ', confirmationBlock);
+  }
+};
+
+const onReceiptHandler = (receipt) => {
+  console.log('Receipt received:', JSON.stringify(receipt));
+  process.exit(1);
+};
+
+const setProvider = () => {
+  // examples:
+  // const mumbai = { rpcUrl: 'https://matic-mumbai.chainstacklabs.com', chainId: 80001 };
+  // const xdai = { rpcUrl: 'https://rpc.xdaichain.com/', chainId: 100 };
+  const provider = new Web3ProviderEngine();
+  provider.addProvider(new PrivateKeyWalletSubprovider(pvk, chainId));
+  provider.addProvider(new RPCSubprovider(rpcUrl));
+  provider.start();
+  providerUtils.startProviderEngine(provider);
+  return provider;
+};
+
+/* Note: before running this transaction a call to the mutation cashout must be done
   to collect the results from it, which are needed to generate the input for this transaction.
   Mutation Cashout returns:
     {
-      signature: String! // Our operatorSig that will allow the seller to withdraw the funds
-      paymentId: String! // Our paymentId
-      assetTransferSuccess: Boolean! //Our assetTransferSuccess
+      signature: String!
+      paymentId: String!
+      assetTransferSuccess: Boolean!
     }
-  */ 
-  
-  const eth = new Eth(rpcUrl);
-  const sellerAccount = identity.accountFromPrivateKey(pvk);
-  eth.accounts.wallet.add(pvk) // Only needed because we are not using metamask or another provider that holds the pvk of the sender
-  
-  const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlock })
+  */
+
+const run = async () => {
+  // For this example, we need to set up our own provider.
+  // In general, use your standard web3 provider.
+  const provider = setProvider();
+  const eth = new Eth(provider);
+
+  // This is the class allows interaction with the blockchain contract
+  const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlock });
 
   const assetTransferData = {
     paymentId,
     wasSuccessful: assetTransferSuccess,
   };
-  
-  paymentsInstance.finalizeAndWithdraw({ assetTransferData, signature: operatorSig, from: sellerAccount.address })
-  .once('receipt', _onReceiptHandler)
-  .on('confirmation', _onConfirmationHandler)
-  .on('error', (err) => {
-    console.error(err);
-    process.exit(1)
-  });
+
+  const sellerAddr = identity.freeverseIdFromPrivateKey(pvk);
+
+  // This is the blockchain contract TX sending. Handle events as usual.
+  paymentsInstance.finalizeAndWithdraw(
+    { assetTransferData, signature: operatorSig, from: sellerAddr },
+  )
+    .once('receipt', onReceiptHandler)
+    .on('confirmation', onConfirmationHandler)
+    .on('error', (err) => {
+      console.error(err);
+      process.exit(1);
+    });
 };
 
 const OK = checkArgs();

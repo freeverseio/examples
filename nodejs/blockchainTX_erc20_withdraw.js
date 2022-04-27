@@ -13,7 +13,7 @@ const argv = require('minimist')(process.argv.slice(2), {
     'paymentId',
     'rpcUrl',
     'assetTransferSuccess',
-    'erc20Addr'
+    'erc20Addr',
   ],
 });
 
@@ -31,9 +31,9 @@ const {
 const checkArgs = () => {
   const OK = (
     paymentsAddr && confirmationBlock && pvk && operatorSig && paymentId && rpcUrl && assetTransferSuccess && erc20Addr
-    );
-    if (!OK) {
-      console.log(`
+  );
+  if (!OK) {
+    console.log(`
       ---------------
       Function: calls NativePayments blockchain smart contract method 'finalizeAndWithdraw'
       Usage Example: 
@@ -49,24 +49,22 @@ const checkArgs = () => {
       * paymentsAddr: the address of the smart contract that acts as escrow returned by allSupportedCryptocurrencies query
       * confirmationBlock: number of blocks to wait after tx hash has been mined to consider it as confirmed returned by allSupportedCryptocurrencies query
       `);
-    }
-    return OK;
-  };
-  let isConfirmed = false;
-  
-  const _onConfirmationHandler = (confirmationNumber) => {
-    if (confirmationNumber >= confirmationBlock && !isConfirmed) {
-      console.log("Tx confirmed on ", confirmationBlock)
-      isConfirmed = true;
-    }
-  };
+  }
+  return OK;
+};
 
-  const _onReceiptHandler = (receipt) => {
-    console.log("Receipt received:", JSON.stringify(receipt))
-    process.exit(1)
-  };
-  
-  const run = async () => {
+const onConfirmationHandler = (confirmationNumber) => {
+  if (confirmationNumber >= confirmationBlock) {
+    console.log('Tx confirmed on ', confirmationBlock);
+  }
+};
+
+const onReceiptHandler = (receipt) => {
+  console.log('Receipt received:', JSON.stringify(receipt));
+  process.exit(1);
+};
+
+const run = async () => {
   /* Note: before running this transaction a call to the mutation cashout must be done
   to collect the results from it, which are needed to generate the input for this transaction.
   Mutation Cashout returns:
@@ -75,26 +73,28 @@ const checkArgs = () => {
       paymentId: String! // Our paymentId
       assetTransferSuccess: Boolean! //Our assetTransferSuccess
     }
-  */ 
-  
+  */
+
   const eth = new Eth(rpcUrl);
   const sellerAccount = identity.accountFromPrivateKey(pvk);
-  eth.accounts.wallet.add(pvk) // Only needed because we are not using metamask or another provider that holds the pvk of the sender
-  
-  const paymentsInstance = new ERC20Payments({ paymentsAddr, eth, confirmationBlock, erc20Addr })
+  eth.accounts.wallet.add(pvk); // Only needed because we are not using metamask or another provider that holds the pvk of the sender
+
+  const paymentsInstance = new ERC20Payments({
+    paymentsAddr, eth, confirmationBlock, erc20Addr,
+  });
 
   const assetTransferData = {
     paymentId,
     wasSuccessful: assetTransferSuccess,
   };
-  
+
   paymentsInstance.finalizeAndWithdraw({ assetTransferData, signature: operatorSig, from: sellerAccount.address })
-  .once('receipt', _onReceiptHandler)
-  .on('confirmation', _onConfirmationHandler)
-  .on('error', (err) => {
-    console.error(err);
-    process.exit(1)
-  });
+    .once('receipt', onReceiptHandler)
+    .on('confirmation', onConfirmationHandler)
+    .on('error', (err) => {
+      console.error(err);
+      process.exit(1);
+    });
 };
 
 const OK = checkArgs();
