@@ -42,14 +42,14 @@ const checkArgs = () => {
     ---------------
     Function: puts an asset for sale in BuyNow mode (as opposite to auction) 
     Usage Example: 
-    node create_buy_now.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currencyId 0 --price 345 --rnd 12342234 --timeValidUntil '1632395810' --assetId '36771977682424071759165601888702044610709221343463' 
+    node putforsale_buynow.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currencyId 0 --price 345 --rnd 12342234 --timeValidUntil '1632395810' --assetId '36771977682424071759165601888702044610709221343463' 
     ---------------
 
     params:
     * pvk: the private key of the owner of the asset
     * assetId
-    * currencyId: currency 1: XDAI
-    * price: respecting the number of decimals of the network of the currencyId
+    * currencyId: e.g. currencyId = 1 for XDAI
+    * price: always an integer, in units the lowest possible unit of that cryptocurrency
     * rnd: a random number, to be generated in front end for each different query
     * timeValidUntil: when will the buynow end (Thursday, 23 September 2021 11:16:50)
     `);
