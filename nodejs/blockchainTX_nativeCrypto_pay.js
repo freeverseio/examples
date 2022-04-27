@@ -96,6 +96,12 @@ const setProvider = () => {
   return provider;
 };
 
+/*
+Note: this example allows a payment in crypto directly to the Layer 1 escrow contract.
+The input params to this TX are obtained from the return of the mutation createBuynowPayment.
+See create_buy_now_payment.js
+*/
+
 async function run() {
   // For this example, we need to set up our own provider.
   // In general, use your standard web3 provider.

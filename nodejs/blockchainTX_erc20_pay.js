@@ -78,6 +78,11 @@ const _onReceiptHandler = (receipt) => {
   process.exit(1)
 };
 
+/*
+Note: this example allows a payment in crypto directly to the Layer 1 escrow contract.
+The input params to this TX are obtained from the return of the mutation createBuynowPayment.
+See create_buy_now_payment.js
+*/
 const run = async () => {
   // Note: before doing anything related to asset trading
   // the user's ID needs to be registered.
