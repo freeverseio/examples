@@ -22,6 +22,9 @@
 // SOFTWARE.
 
 const Eth = require('web3-eth');
+
+const { Web3ProviderEngine, PrivateKeyWalletSubprovider, RPCSubprovider } = require('@0x/subproviders');
+const { providerUtils } = require('@0x/utils');
 const identity = require('freeverse-crypto-js');
 const { NativeCryptoPayments } = require('freeverse-marketsigner-js');
 const argv = require('minimist')(process.argv.slice(2), {
@@ -64,7 +67,7 @@ const checkArgs = () => {
       ---------------
       Function: calls NativePayments blockchain smart contract method 'pay'
       Usage Example: 
-      node call_bluecoin_blockchain_contract_pay.js --pvk 'd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --deadline '1651048702' --feeBPS '50' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --price '10' --seller '0x65bf60D431AB6aBd96F4a4Ef32C106d6B5761C27' --universeId '0' --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --confirmationBlock 8 --rpcUrl 'https://matic-mumbai.chainstacklabs.com'
+      node call_bluecoin_blockchain_contract_pay.js --pvk 'd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --deadline '1651048702' --feeBPS '50' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --price '10' --seller '0x65bf60D431AB6aBd96F4a4Ef32C106d6B5761C27' --universeId '0' --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --confirmationBlock 8 --rpcUrl 'https://matic-net.chainstacklabs.com'
       ---------------
       
       params:
@@ -96,6 +99,18 @@ const onReceiptHandler = (receipt) => {
   process.exit(1);
 };
 
+const setProvider = () => {
+  const mumbai = { rpcUrl: 'https://matic-mumbai.chainstacklabs.com', chainId: 80001 };
+  const xdai = { rpcUrl: 'https://rpc.xdaichain.com/', chainId: 100 };
+  const net = mumbai;
+  const provider = new Web3ProviderEngine();
+  provider.addProvider(new PrivateKeyWalletSubprovider(pvk, net.chainId));
+  provider.addProvider(new RPCSubprovider(net.rpcUrl, 10000));
+  provider.start();
+  providerUtils.startProviderEngine(provider);
+  return provider;
+}
+
 const run = async () => {
   // Note: before doing anything related to asset trading
   // the user's ID needs to be registered.
@@ -103,14 +118,12 @@ const run = async () => {
   // for a given user's ID.
   // See the link_id_to_email.js examples
 
-  const eth = new Eth('https://matic-mumbai.chainstacklabs.com');
-  const buyerAccount = identity.accountFromPrivateKey(pvk);
-  // Only needed because we are not using metamask or
-  // another provider that holds the pvk of the sender:
-  eth.accounts.wallet.add(pvk);
+  const provider = setProvider();
+  const eth = new Eth(provider);
 
   const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlock });
 
+  const buyerAccount = identity.accountFromPrivateKey(pvk);
   const paymentData = {
     paymentId,
     amount: price.toString(),
@@ -133,4 +146,4 @@ const run = async () => {
 const OK = checkArgs();
 if (OK) run();
 
-// node call_bluecoin_blockchain_contract_pay.js --pvk 'e2029f020e155378c8e2a82c31c4136a1e9cb46cec367b16004a36e8021ae39c' --deadline '1651048702' --feeBPS '50' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --price '10' --seller '0x65bf60D431AB6aBd96F4a4Ef32C106d6B5761C27' --universeId '0' --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --confirmationBlock 8 --rpcUrl 'https://matic-mumbai.chainstacklabs.com'
+// node call_bluecoin_blockchain_contract_pay.js --pvk 'e2029f020e155378c8e2a82c31c4136a1e9cb46cec367b16004a36e8021ae39c' --deadline '1651048702' --feeBPS '50' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --price '10' --seller '0x65bf60D431AB6aBd96F4a4Ef32C106d6B5761C27' --universeId '0' --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --confirmationBlock 8 --rpcUrl 'https://matic-net.chainstacklabs.com'
