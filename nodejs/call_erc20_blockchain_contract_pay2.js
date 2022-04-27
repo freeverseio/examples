@@ -77,7 +77,7 @@ const checkArgs = () => {
     * price: price returned by the create_buynow_payment mutation
     * feeBPS: feeBPS returned by the create_buynow_payment mutation
     * universeId: universeId returned by the create_buynow_payment mutation
-    * deadline: returned by create_buynow_payment mutation
+    * deadline: time until the operatorSig is valid, returned by create_buynow_payment mutation
     * seller: returned by create_buynow_payment mutation
     * rpcUrl: url of the network node to use as web3 eth provider
     `);
@@ -99,11 +99,20 @@ const _onReceiptHandler = (receipt) => {
 };
 
 const run = async () => {
-  // Note: before doing anything related to asset trading
-  // the user's ID needs to be registered.
-  // This registration needs to be done only once
-  // for a given user's ID.
-  // See the link_id_to_email.js examples
+  /* Note: before running this transaction a call to the mutation createBuynowPayment must be done
+  to collect the results from it, which are needed to generate the input for this transaction.
+  Mutation createBuynowPayment returns:
+  {
+    paymentUrl // Our operatorSig which will allow the buyer to call the method pay until the deadline is surpassed
+    paymentId
+    price
+    feeBPS
+    universeId
+    deadline // Time until the operatorSig is valid
+    buyerId
+    seller
+  }
+  See create_buy_now_payment.js*/ 
   
   const eth = new Eth(rpcUrl);
   const buyerAccount = identity.accountFromPrivateKey(pvk);
