@@ -55,12 +55,13 @@ const {
   deadline,
   seller,
   rpcUrl,
+  chainId,
 } = argv;
 
 const checkArgs = () => {
   const OK = (
     paymentsAddr && confirmationBlock && pvk && operatorSig && paymentId
-    && price && feeBPS && universeId && deadline && seller && rpcUrl
+    && price && feeBPS && universeId && deadline && seller && rpcUrl && chainId
   );
   if (!OK) {
     console.log(`
@@ -91,12 +92,10 @@ const checkArgs = () => {
   }
   return OK;
 };
-let isConfirmed = false;
 
 const onConfirmationHandler = (confirmationNumber) => {
-  if (confirmationNumber >= confirmationBlock && !isConfirmed) {
+  if (confirmationNumber >= confirmationBlock) {
     console.log('Tx confirmed on ', confirmationBlock);
-    isConfirmed = true;
   }
 };
 
@@ -106,29 +105,28 @@ const onReceiptHandler = (receipt) => {
 };
 
 const setProvider = () => {
-  const mumbai = { rpcUrl: 'https://matic-mumbai.chainstacklabs.com', chainId: 80001 };
-  const xdai = { rpcUrl: 'https://rpc.xdaichain.com/', chainId: 100 };
-  const net = mumbai;
+  // examples:
+  // const mumbai = { rpcUrl: 'https://matic-mumbai.chainstacklabs.com', chainId: 80001 };
+  // const xdai = { rpcUrl: 'https://rpc.xdaichain.com/', chainId: 100 };
   const provider = new Web3ProviderEngine();
-  provider.addProvider(new PrivateKeyWalletSubprovider(pvk, net.chainId));
-  provider.addProvider(new RPCSubprovider(net.rpcUrl, 10000));
+  provider.addProvider(new PrivateKeyWalletSubprovider(pvk, chainId));
+  provider.addProvider(new RPCSubprovider(rpcUrl));
   provider.start();
   providerUtils.startProviderEngine(provider);
   return provider;
-}
+};
 
-const run = async () => {
-  // Note: before doing anything related to asset trading
-  // the user's ID needs to be registered.
-  // This registration needs to be done only once
-  // for a given user's ID.
-  // See the link_id_to_email.js examples
-
+async function run() {
+  // For this example, we need to set up our own provider.
+  // In general, use your standard web3 provider.
   const provider = setProvider();
   const eth = new Eth(provider);
 
+  // This is the class allows interaction with the blockchain contract
   const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlock });
 
+  // The call to the .pay function just requires this struct to be built
+  // from the params received in the create_buynow_payment mutation
   const buyerAccount = identity.accountFromPrivateKey(pvk);
   const paymentData = {
     paymentId,
@@ -140,6 +138,7 @@ const run = async () => {
     seller,
   };
 
+  // This is the blockchain contract TX sending. Handle events as usual.
   paymentsInstance.pay({ paymentData, signature: operatorSig, from: buyerAccount.address })
     .once('receipt', onReceiptHandler)
     .on('confirmation', onConfirmationHandler)
@@ -147,9 +146,7 @@ const run = async () => {
       console.error(err);
       process.exit(1);
     });
-};
+}
 
 const OK = checkArgs();
 if (OK) run();
-
-// node call_bluecoin_blockchain_contract_pay.js --pvk 'e2029f020e155378c8e2a82c31c4136a1e9cb46cec367b16004a36e8021ae39c' --deadline '1651048702' --feeBPS '50' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --price '10' --seller '0x65bf60D431AB6aBd96F4a4Ef32C106d6B5761C27' --universeId '0' --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --confirmationBlock 8 --rpcUrl 'https://matic-net.chainstacklabs.com'
