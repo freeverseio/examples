@@ -56,10 +56,11 @@ const {
 
 const checkArgs = () => {
   const OK = (
-    paymentsAddr && confirmationBlock && pvk && operatorSig && paymentId && price && feeBPS && universeId && deadline && seller && rpcUrl
-    );
-    if (!OK) {
-      console.log(`
+    paymentsAddr && confirmationBlock && pvk && operatorSig && paymentId
+    && price && feeBPS && universeId && deadline && seller && rpcUrl
+  );
+  if (!OK) {
+    console.log(`
       ---------------
       Function: calls NativePayments blockchain smart contract method 'pay'
       Usage Example: 
@@ -68,46 +69,47 @@ const checkArgs = () => {
       
       params:
     * pvk: the private key of the buyer
-      * paymentsAddr: the address of the smart contract that acts as escrow
-      * confirmationBlock: number of blocks to wait after tx hash has been mined to consider it as confirmed
-      * operatorSig: signature that FV issues that allows the buyer address to call the contract method pay returned by the create_buynow_payment mutation
-      * paymentId: id returned by the create_buynow_payment mutation
+    * paymentsAddr: the address of the smart contract that acts as escrow
+    * confirmationBlock: number of blocks to wait after tx hash has been mined to consider it as confirmed
+    * operatorSig: signature that FV issues that allows the buyer address to call the contract method pay returned by the create_buynow_payment mutation
+    * paymentId: id returned by the create_buynow_payment mutation
     * price: price returned by the create_buynow_payment mutation
     * feeBPS: feeBPS returned by the create_buynow_payment mutation
     * universeId: universeId returned by the create_buynow_payment mutation
     * deadline: returned by create_buynow_payment mutation
     * seller: returned by create_buynow_payment mutation
       `);
-    }
-    return OK;
-  };
-  let isConfirmed = false;
-  
-  const _onConfirmationHandler = (confirmationNumber) => {
-    if (confirmationNumber >= confirmationBlock && !isConfirmed) {
-      console.log("Tx confirmed on ", confirmationBlock)
-      isConfirmed = true;
-    }
-  };
+  }
+  return OK;
+};
+let isConfirmed = false;
 
-  const _onReceiptHandler = (receipt) => {
-    console.log("Receipt received:", JSON.stringify(receipt))
-    process.exit(1)
-  };
-  
-  const run = async () => {
-    // Note: before doing anything related to asset trading
+const onConfirmationHandler = (confirmationNumber) => {
+  if (confirmationNumber >= confirmationBlock && !isConfirmed) {
+    console.log('Tx confirmed on ', confirmationBlock);
+    isConfirmed = true;
+  }
+};
+
+const onReceiptHandler = (receipt) => {
+  console.log('Receipt received:', JSON.stringify(receipt));
+  process.exit(1);
+};
+
+const run = async () => {
+  // Note: before doing anything related to asset trading
   // the user's ID needs to be registered.
   // This registration needs to be done only once
   // for a given user's ID.
   // See the link_id_to_email.js examples
-  
+
   const eth = new Eth('https://matic-mumbai.chainstacklabs.com');
   const buyerAccount = identity.accountFromPrivateKey(pvk);
-  eth.accounts.wallet.add(pvk) // Only needed because we are not using metamask or another provider that holds the pvk of the sender
-  
+  // Only needed because we are not using metamask or
+  // another provider that holds the pvk of the sender:
+  eth.accounts.wallet.add(pvk);
 
-  const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlock })
+  const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlock });
 
   const paymentData = {
     paymentId,
@@ -116,16 +118,16 @@ const checkArgs = () => {
     universeId: universeId.toString(),
     deadline: deadline.toString(),
     buyer: buyerAccount.address,
-    seller: seller,
+    seller,
   };
-  
+
   paymentsInstance.pay({ paymentData, signature: operatorSig, from: buyerAccount.address })
-  .once('receipt', _onReceiptHandler)
-  .on('confirmation', _onConfirmationHandler)
-  .on('error', (err) => {
-    console.error(err);
-    process.exit(1)
-  });
+    .once('receipt', onReceiptHandler)
+    .on('confirmation', onConfirmationHandler)
+    .on('error', (err) => {
+      console.error(err);
+      process.exit(1);
+    });
 };
 
 const OK = checkArgs();
