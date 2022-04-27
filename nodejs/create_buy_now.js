@@ -48,8 +48,8 @@ const checkArgs = () => {
     params:
     * pvk: the private key of the owner of the asset
     * assetId
-    * currencyId: currency 0: EUR
-    * price: in units of cents of EUR, so 345 = 3.45 EUR
+    * currencyId: currency 1: XDAI
+    * price: respecting the number of decimals of the network of the currencyId
     * rnd: a random number, to be generated in front end for each different query
     * timeValidUntil: when will the buynow end (Thursday, 23 September 2021 11:16:50)
     `);
