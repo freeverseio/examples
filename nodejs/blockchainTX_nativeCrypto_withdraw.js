@@ -8,7 +8,7 @@ const { NativeCryptoPayments } = require('freeverse-marketsigner-js');
 const argv = require('minimist')(process.argv.slice(2), {
   string: [
     'paymentsAddr',
-    'confirmationBlock',
+    'confirmationBlocks',
     'pvk',
     'operatorSig',
     'paymentId',
@@ -21,7 +21,7 @@ const { testingProvider } = require('./utils/testingProvider');
 
 const {
   paymentsAddr,
-  confirmationBlock,
+  confirmationBlocks,
   pvk,
   operatorSig,
   paymentId,
@@ -32,7 +32,7 @@ const {
 
 const checkArgs = () => {
   const OK = (
-    paymentsAddr && confirmationBlock && pvk && operatorSig
+    paymentsAddr && confirmationBlocks && pvk && operatorSig
     && paymentId && rpcUrl && assetTransferSuccess
   );
   if (!OK) {
@@ -40,7 +40,7 @@ const checkArgs = () => {
       ---------------
       Function: calls NativePayments blockchain smart contract method 'finalizeAndWithdraw'
       Usage Example: 
-      node blockchainTX_nativeCrypto_withdraw.js --pvk '2b40a5c68e311c2057b7b6a2763a6bdf431f8092d43a9c131609eacbb29739b0' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --confirmationBlock 8 --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --rpcUrl 'https://matic-mumbai.chainstacklabs.com' --chainId 80001 --assetTransferSuccess true
+      node blockchainTX_nativeCrypto_withdraw.js --pvk '2b40a5c68e311c2057b7b6a2763a6bdf431f8092d43a9c131609eacbb29739b0' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --confirmationBlocks 8 --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --rpcUrl 'https://matic-mumbai.chainstacklabs.com' --chainId 80001 --assetTransferSuccess true
       ---------------
       
       params:
@@ -50,7 +50,7 @@ const checkArgs = () => {
       * rpcUrl: the url of a (public) node of that blockchain
       * chainId: the chainId of the blockchain
       * paymentsAddr: the address of the smart contract that acts as escrow
-      * confirmationBlock: number of blocks that the provider waits after tx hash has been mined to call the onConfirmed method
+      * confirmationBlocks: number of blocks that the provider waits after tx hash has been mined to call the onConfirmed method
 
       params related to the payment transaction, all of them returned when calling the cashout mutation
       * paymentId: id that identifies the payment in the escrow contract
@@ -62,8 +62,8 @@ const checkArgs = () => {
 };
 
 const onConfirmationHandler = (confirmationNumber) => {
-  if (confirmationNumber >= confirmationBlock) {
-    console.log('Tx confirmed on ', confirmationBlock);
+  if (confirmationNumber >= confirmationBlocks) {
+    console.log('Tx confirmed on ', confirmationBlocks);
   }
 };
 
@@ -88,7 +88,7 @@ const run = async () => {
   const eth = new Eth(testingProvider(pvk, rpcUrl, chainId));
 
   // This is the class allows interaction with the blockchain contract
-  const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlock });
+  const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlocks });
 
   const assetTransferData = {
     paymentId,
