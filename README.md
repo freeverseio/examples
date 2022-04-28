@@ -3,10 +3,8 @@ This repository provides examples of how to use the public Freeverse packages cr
 
 ## Setup
 
-Navigate to nodejs folder.
-
 ```
-npm ci
+cd nodejs && npm ci
 ```
 
 ## Usage
