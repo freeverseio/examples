@@ -10,7 +10,7 @@ const { NativeCryptoPayments } = require('freeverse-marketsigner-js');
 const argv = require('minimist')(process.argv.slice(2), {
   string: [
     'paymentsAddr',
-    'confirmationBlock',
+    'confirmationBlocks',
     'pvk',
     'operatorSig',
     'paymentId',
@@ -25,7 +25,7 @@ const argv = require('minimist')(process.argv.slice(2), {
 
 const {
   paymentsAddr,
-  confirmationBlock,
+  confirmationBlocks,
   pvk,
   operatorSig,
   paymentId,
@@ -40,7 +40,7 @@ const {
 
 const checkArgs = () => {
   const OK = (
-    paymentsAddr && confirmationBlock && pvk && operatorSig && paymentId
+    paymentsAddr && confirmationBlocks && pvk && operatorSig && paymentId
     && price && feeBPS && universeId && deadline && seller && rpcUrl && chainId
   );
   if (!OK) {
@@ -48,7 +48,7 @@ const checkArgs = () => {
       ---------------
       Function: Sends a payment TX to the escrow Smart Contract 
       Usage Example: 
-      node blockchainTX_nativeCrypto_pay.js --pvk 'd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --deadline '1651048702' --feeBPS '50' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --price '10' --seller '0x65bf60D431AB6aBd96F4a4Ef32C106d6B5761C27' --universeId '0' --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --confirmationBlock 8 --rpcUrl 'https://matic-net.chainstacklabs.com' --chainId 80001
+      node blockchainTX_nativeCrypto_pay.js --pvk 'd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --deadline '1651048702' --feeBPS '50' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --price '10' --seller '0x65bf60D431AB6aBd96F4a4Ef32C106d6B5761C27' --universeId '0' --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --confirmationBlocks 8 --rpcUrl 'https://matic-net.chainstacklabs.com' --chainId 80001
       ---------------
       
       params:
@@ -58,7 +58,7 @@ const checkArgs = () => {
       * rpcUrl: the url of a (public) node of that blockchain
       * chainId: the chainId of the blockchain
       * paymentsAddr: the address of the smart contract that acts as escrow
-      * confirmationBlock: number of blocks that the provider waits after tx hash has been mined to call the onConfirmed method
+      * confirmationBlocks: number of blocks that the provider waits after tx hash has been mined to call the onConfirmed method
     
       params related to the payment transaction, all of them returned when calling the create_buynow_payment mutation
       * paymentId: id that identifies the payment in the escrow contract
@@ -74,8 +74,8 @@ const checkArgs = () => {
 };
 
 const onConfirmationHandler = (confirmationNumber) => {
-  if (confirmationNumber >= confirmationBlock) {
-    console.log('Tx confirmed on ', confirmationBlock);
+  if (confirmationNumber >= confirmationBlocks) {
+    console.log('Tx confirmed on ', confirmationBlocks);
   }
 };
 
@@ -109,7 +109,7 @@ async function run() {
   const eth = new Eth(provider);
 
   // This is the class allows interaction with the blockchain contract
-  const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlock });
+  const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlocks });
 
   // The call to the .pay function just requires this struct to be built
   // from the params received in the create_buynow_payment mutation

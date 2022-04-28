@@ -41,7 +41,7 @@ const checkArgs = () => {
       ---------------
       Function: calls NativePayments blockchain smart contract method 'finalizeAndWithdraw'
       Usage Example: 
-      node blockchainTX_nativeCrypto_withdraw.js --pvk 'df48bdb40d64bdf9885a270b8db9e82e2bf52a01286a6269b6c8b11798922743' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --confirmationBlock 8 --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --rpcUrl 'https://matic-mumbai.chainstacklabs.com' --chainId 80001 --assetTransferSuccess true
+      node blockchainTX_nativeCrypto_withdraw.js --pvk '2b40a5c68e311c2057b7b6a2763a6bdf431f8092d43a9c131609eacbb29739b0' --paymentId '0x67e536c83928dec5ae68b1cb7bd55c4d22e7252a92d588944839aba7675d40f7'  --operatorSig '0xddbfc28a5d8b4e67af13099a1f5c7d0e2c11b0d1350ade51bb5b8abe2254cb5932a582521a6127e5aaad0eff9fab4bb04a3ac226ecb5605b669edb9a01a5fdc11b' --confirmationBlock 8 --paymentsAddr '0xe1bfcc5fA429c84f73C684728549A15105C74970' --rpcUrl 'https://matic-mumbai.chainstacklabs.com' --chainId 80001 --assetTransferSuccess true
       ---------------
       
       params:
