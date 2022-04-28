@@ -3,38 +3,30 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "create": "node asset_create.js",
-    "update": "node asset_update.js",
-    "encrypt": "node identity_encrypt.js",
-    "decrypt": "node identity_decrypt.js",
-    "upload-image": "node upload_image.js",
-    "list-images": "node list_images.js",
-    "link-id": "node link_id_to_email.js",
-    "create-auction": "node create_auction.js",
-    "create-bid": "node create_bid.js",
-    "pay-now": "node pay_now.js",
-    "create-buynow": "node create_buy_now.js",
-    "create-buynow-payment": "node create_buy_now_payment.js",
-    "generate-auth-token": "node generate_auth_token.js",
-    "test": "npx eslint ."
+    "test": "npx eslint .",
+    "postinstall": "npx patch-package"
   },
   "author": "Freeverse.io",
   "license": "MIT",
   "dependencies": {
+    "@0x/subproviders": "^6.6.5",
+    "@0x/utils": "^6.5.3",
     "commander": "^9.0.0",
     "cross-fetch": "3.1.4",
     "form-data": "^4.0.0",
     "freeverse-apisigner-js": "^1.0.6",
     "freeverse-crypto-js": "^1.0.2",
-    "freeverse-marketsigner-js": "^1.2.0",
+    "freeverse-marketsigner-js": "^1.5.1",
     "ipfs-only-hash": "4.0.0",
     "isomorphic-fetch": "^3.0.0",
     "minimist": "^1.2.5",
+    "web3-eth": "^1.7.3",
     "web3-eth-accounts": "^1.6.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.24.2"
+    "eslint-plugin-import": "^2.24.2",
+    "patch-package": "^6.4.7"
   }
 }
