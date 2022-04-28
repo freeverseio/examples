@@ -3,8 +3,6 @@
 
 const Eth = require('web3-eth');
 
-const { Web3ProviderEngine, PrivateKeyWalletSubprovider, RPCSubprovider } = require('@0x/subproviders');
-const { providerUtils } = require('@0x/utils');
 const identity = require('freeverse-crypto-js');
 const { NativeCryptoPayments } = require('freeverse-marketsigner-js');
 const argv = require('minimist')(process.argv.slice(2), {
@@ -19,6 +17,7 @@ const argv = require('minimist')(process.argv.slice(2), {
     'assetTransferSuccess',
   ],
 });
+const { testingProvider } = require('./utils/testingProvider');
 
 const {
   paymentsAddr,
@@ -73,18 +72,6 @@ const onReceiptHandler = (receipt) => {
   process.exit(1);
 };
 
-const setProvider = () => {
-  // examples:
-  // const mumbai = { rpcUrl: 'https://matic-mumbai.chainstacklabs.com', chainId: 80001 };
-  // const xdai = { rpcUrl: 'https://rpc.xdaichain.com/', chainId: 100 };
-  const provider = new Web3ProviderEngine();
-  provider.addProvider(new PrivateKeyWalletSubprovider(pvk, chainId));
-  provider.addProvider(new RPCSubprovider(rpcUrl));
-  provider.start();
-  providerUtils.startProviderEngine(provider);
-  return provider;
-};
-
 /* Note: before running this transaction a call to the mutation cashout must be done
   to collect the results from it, which are needed to generate the input for this transaction.
   Mutation Cashout returns:
@@ -98,8 +85,7 @@ const setProvider = () => {
 const run = async () => {
   // For this example, we need to set up our own provider.
   // In general, use your standard web3 provider.
-  const provider = setProvider();
-  const eth = new Eth(provider);
+  const eth = new Eth(testingProvider(pvk, rpcUrl, chainId));
 
   // This is the class allows interaction with the blockchain contract
   const paymentsInstance = new NativeCryptoPayments({ paymentsAddr, eth, confirmationBlock });
