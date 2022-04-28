@@ -20,7 +20,7 @@ query getVerseReference {
 }
 `;
   console.log(getVerseReference);
-  // Imagine we get:
+  // In this example, we return a typical result
   return {
     verseInterval: 900, // 15 min
     referenceTime: 1631531810, // Monday, 13 September 2021 11:16:50

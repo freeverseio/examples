@@ -4,7 +4,7 @@
 const identity = require('freeverse-crypto-js');
 const { digestPutForSaleBuyNow, sign, getExpiryData } = require('freeverse-marketsigner-js');
 const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'currencyId', 'price', 'rnd', 'timeValidUntil', 'assetId'] });
-const { queryReferences } = require('./query_references');
+const { getReferences } = require('./get_references');
 
 const {
   pvk,
@@ -45,7 +45,7 @@ const run = () => {
   // See the link_id_to_email.js examples
 
   // First convert all time quantities from secs to verse:
-  const references = queryReferences();
+  const references = getReferences();
 
   // Convert timeValidUntil from secs to verse:
   const expirationData = getExpiryData({
