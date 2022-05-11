@@ -53,7 +53,11 @@ const run = () => {
     referenceVerse: references.referenceVerse,
     referenceTime: references.referenceTime,
     verseInterval: references.verseInterval,
+    safetyMargin: references.safetyDeadlineMargin,
   });
+  // You should show the user that the auctions expires at:
+  console.log('The Auction expires at time: ', expirationData.expirationTime);
+  // And use the verse as parameter to sign:
   const validUntil = expirationData.lastValidVerse;
 
   // The digest can finally be built:

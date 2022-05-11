@@ -19,12 +19,22 @@ query getVerseReference {
   }
 }
 `;
-  console.log(getVerseReference);
-  // In this example, we return a typical result
+  const getSafetyMargin = `
+{
+  allSupportedCryptocurrencies(condition:{currencyId:4}){
+    nodes{
+      safetyDeadlineMargin
+    }
+  }
+}
+`;
+  console.log(getVerseReference, getSafetyMargin);
+  // Imagine we get:
   return {
     verseInterval: 900, // 15 min
     referenceTime: 1631531810, // Monday, 13 September 2021 11:16:50
     referenceVerse: 1,
+    safetyDeadlineMargin: 300, // 5 min
   };
 };
 
