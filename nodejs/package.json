@@ -16,13 +16,14 @@
     "eth-crypto": "^2.3.0",
     "form-data": "^4.0.0",
     "freeverse-apisigner-js": "^1.0.6",
-    "freeverse-crypto-js": "^1.0.2",
+    "freeverse-crypto-js": "^1.0.6",
     "freeverse-marketsigner-js": "^1.5.3",
     "ipfs-only-hash": "4.0.0",
     "isomorphic-fetch": "^3.0.0",
     "minimist": "^1.2.5",
     "web3-eth": "^1.7.3",
-    "web3-eth-accounts": "^1.6.1"
+    "web3-eth-accounts": "^1.6.1",
+    "web3-utils": "^1.7.3"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
