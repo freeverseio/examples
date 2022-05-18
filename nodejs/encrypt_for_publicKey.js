@@ -5,7 +5,7 @@ const Utils = require('web3-utils');
 // Alice wants to send data to Bob, encrypted so that only Bob can decrypt.
 // Bob publishes his publicKey. Alice encrypts using it.
 
-// First, Bob creates his publicKey. 
+// First, Bob creates his publicKey.
 // If Bob already had a private/public key pair, he'd skip the first line
 const bobId = identity.createNewAccount(); // creates a pair
 const bobPrivateKey = bobId.privateKey;
