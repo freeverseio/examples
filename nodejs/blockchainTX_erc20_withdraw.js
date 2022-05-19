@@ -1,11 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable no-console */
 
-const Eth = require('web3-eth');
-const identity = require('freeverse-crypto-js');
-const { ERC20Payments } = require('freeverse-marketsigner-js');
-const { testingProvider } = require('./utils/testingProvider');
-
 /*
 WITHDRAWS EARNINGS FROM HAVING SOLD IN ERC20
 Note: before running this transaction a call to the mutation cashout must be done
@@ -47,6 +42,11 @@ const assetTransferSuccess = true;
 const erc20Addr = '0x83Bf599aA9C55Be2B665d8d782dc9c2188077dd5';
 
 // Preparing libs and handy functions
+
+const Eth = require('web3-eth');
+const identity = require('freeverse-crypto-js');
+const { ERC20Payments } = require('freeverse-marketsigner-js');
+const { testingProvider } = require('./utils/testingProvider');
 
 const onConfirmationHandler = (confirmationNumber) => {
   if (confirmationNumber >= confirmationBlocks) {
