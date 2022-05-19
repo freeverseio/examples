@@ -16,7 +16,7 @@ const identity = require('freeverse-crypto-js');
 const { digestLinkId, sign } = require('freeverse-marketsigner-js');
 
 // In this example, we create a web3 account from scratch, so that
-// the user can sign. You can use your own web3 wallet in your app. 
+// the user can sign. You can use your own web3 wallet in your app.
 const randomPvk = '0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0';
 const userAccount = identity.accountFromPrivateKey(randomPvk);
 const userId = userAccount.address;
