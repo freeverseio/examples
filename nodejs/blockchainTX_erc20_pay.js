@@ -46,6 +46,8 @@ const erc20Addr = '0x83Bf599aA9C55Be2B665d8d782dc9c2188077dd5';
 const rpcUrl = 'https://matic-mumbai.chainstacklabs.com';
 const chainId = 80001;
 
+// Preparing libs and handy functions
+
 const Eth = require('web3-eth');
 const identity = require('freeverse-crypto-js');
 const { ERC20Payments } = require('freeverse-marketsigner-js');
