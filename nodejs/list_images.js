@@ -1,33 +1,23 @@
 /* eslint-disable no-console */
-// MIT License
+
+/*
+Returns the list of images in a given universe
+
+INPUTS:
+* pvk: the privateKey of the universe owner
+* universe: the (uint) index of the universe
+* endpoint: the API endpoint
+*/
+
+const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d';
+const universe = 0;
+const endpoint = 'https://api.blackhole.gorengine.com';
+
+// Preparing the query
 
 const identity = require('freeverse-crypto-js');
 const fetch = require('cross-fetch');
 const signer = require('freeverse-apisigner-js');
-
-const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'universe', 'endpoint'] });
-
-const {
-  pvk, endpoint, universe,
-} = argv;
-
-const checkArgs = () => {
-  const OK = pvk && universe && endpoint;
-  if (!OK) {
-    console.log(`
-    ---------------
-    Usage Example: 
-    node list_images.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --universe '0' --endpoint 'https://api.blackhole.gorengine.com'
-
-    params:
-    * pvk: the privateKey of the universe owner
-    * universe: the (uint) index of the universe
-    * endpoint: the API endpoint
-    ---------------
-    `);
-  }
-  return OK;
-};
 
 const listImages = async ({ universeIdx, signature }) => {
   try {
@@ -54,9 +44,11 @@ const listImages = async ({ universeIdx, signature }) => {
 };
 
 const run = async () => {
+  // Prepare the web3 account of the universe owner for signing
+  // (any other web3 compatible approach would work)
   const universeOwnerAccount = identity.accountFromPrivateKey(pvk);
   const signature = signer.signListImages({
-    web3account: universeOwnerAccount,
+    web3Account: universeOwnerAccount,
     universeIdx: universe,
   });
   try {
@@ -67,5 +59,4 @@ const run = async () => {
   }
 };
 
-const OK = checkArgs();
-if (OK) run();
+run();

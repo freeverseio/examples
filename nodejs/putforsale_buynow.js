@@ -1,77 +1,61 @@
 /* eslint-disable no-console */
-// MIT License
+
+/*
+Puts an asset for sale in BuyNow mode (as opposite to auction)
+
+INPUTS:
+* pvk: the private key of the owner of the asset
+* assetId
+* currencyId: e.g. currencyId = 1 for XDAI
+* price: always an integer, in units the lowest possible unit of that cryptocurrency
+* rnd: a random number, to be generated in front end for each different query
+* timeValidUntil: when will the buynow end (Thursday, 23 September 2021 11:16:50)
+*/
+
+const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d';
+const currencyId = 0;
+const price = 345;
+const rnd = 12342234;
+const timeValidUntil = '1632395810';
+const assetId = '36771977682424071759165601888702044610709221343463';
+
+// Preparing the query
 
 const identity = require('freeverse-crypto-js');
 const { digestPutForSaleBuyNow, sign, getExpiryData } = require('freeverse-marketsigner-js');
-const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'currencyId', 'price', 'rnd', 'timeValidUntil', 'assetId'] });
 const { getReferences } = require('./get_references');
 
-const {
-  pvk,
-  currencyId,
-  price,
-  rnd,
-  timeValidUntil,
-  assetId,
-} = argv;
+// First convert all time quantities from secs to verse:
+const references = getReferences();
 
-const checkArgs = () => {
-  const OK = (assetId && pvk && currencyId && price && rnd && timeValidUntil);
-  if (!OK) {
-    console.log(`
-    ---------------
-    Function: puts an asset for sale in BuyNow mode (as opposite to auction) 
-    Usage Example: 
-    node putforsale_buynow.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --currencyId 0 --price 345 --rnd 12342234 --timeValidUntil '1632395810' --assetId '36771977682424071759165601888702044610709221343463' 
-    ---------------
+// Convert timeValidUntil from secs to verse:
+const expirationData = getExpiryData({
+  time: timeValidUntil,
+  referenceVerse: references.referenceVerse,
+  referenceTime: references.referenceTime,
+  verseInterval: references.verseInterval,
+  safetyMargin: references.safetyDeadlineMargin,
+});
 
-    params:
-    * pvk: the private key of the owner of the asset
-    * assetId
-    * currencyId: e.g. currencyId = 1 for XDAI
-    * price: always an integer, in units the lowest possible unit of that cryptocurrency
-    * rnd: a random number, to be generated in front end for each different query
-    * timeValidUntil: when will the buynow end (Thursday, 23 September 2021 11:16:50)
-    `);
-  }
-  return OK;
-};
+// The user should be explained that the BuyNow expires at:
+console.log('The BuyNow expires at time: ', expirationData.expirationTime);
 
-const run = () => {
-  // Note: before doing anything related to asset trading
-  // the user's ID needs to be registered.
-  // This registration needs to be done only once
-  // for a given user's ID.
-  // See the link_id_to_email.js examples
+// And use the verse as parameter to sign:
+const validUntil = expirationData.lastValidVerse;
 
-  // First convert all time quantities from secs to verse:
-  const references = getReferences();
+// The digest can finally be built:
+const digest = digestPutForSaleBuyNow({
+  currencyId, price, rnd, validUntil, assetId,
+});
 
-  // Convert timeValidUntil from secs to verse:
-  const expirationData = getExpiryData({
-    time: timeValidUntil,
-    referenceVerse: references.referenceVerse,
-    referenceTime: references.referenceTime,
-    verseInterval: references.verseInterval,
-    safetyMargin: references.safetyDeadlineMargin,
-  });
-  // You should show the user that the auctions expires at:
-  console.log('The Auction expires at time: ', expirationData.expirationTime);
-  // And use the verse as parameter to sign:
-  const validUntil = expirationData.lastValidVerse;
+// create web3 account from your private key
+// (other forms of creating web3 account could be subsituted)
+const assetOwnerAccount = identity.accountFromPrivateKey(pvk);
+const signature = sign({ digest, web3account: assetOwnerAccount });
+const signatureToSend = signature.substring(2, signature.length);
 
-  // The digest can finally be built:
-  const digest = digestPutForSaleBuyNow({
-    currencyId, price, rnd, validUntil, assetId,
-  });
-
-  // create web3 account from your private key
-  // (other forms of creating web3 account could be subsituted)
-  const assetOwnerAccount = identity.accountFromPrivateKey(pvk);
-  const signature = sign({ digest, web3account: assetOwnerAccount });
-  const signatureToSend = signature.substring(2, signature.length);
-  // inject results into final mutation to send to graphQL endpoint
-  const assetMutation = `
+// inject results into final mutation to send to graphQL endpoint
+const assetMutation = `
 mutation { 
   createBuyNowFromPutForSale(
     input: { 
@@ -85,8 +69,4 @@ mutation {
   )
 }`;
 
-  console.log(assetMutation);
-};
-
-const OK = checkArgs();
-if (OK) run();
+console.log(assetMutation);
