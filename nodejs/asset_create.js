@@ -2,16 +2,7 @@
 /* eslint-disable camelcase */
 
 // CREATES AN ASSET
-// Note : The image needs to be uploaded first (see upload_image.js example)
-// In doing so, the query returns the IPFS CID.
-// That CID needs to be used here in the image field, with format:
-//    image: 'ipfs://CID'
-// Additionally, you can upload to IPFS by your own means too
-// (anyone can, after all, including the asset owner, at any point in time)
 // Properties for asset following standard https://docs.livingassets.io/api/props_standard/
-
-const identity = require('freeverse-crypto-js');
-const { createAssetOp, AtomicAssetOps } = require('freeverse-apisigner-js');
 
 // INPUTS:
 // pvk: the private key of the owner of the universe
@@ -50,6 +41,9 @@ const asset_metadata = {
 
 // CREATING THE ASSET:
 
+const identity = require('freeverse-crypto-js');
+const { createAssetOp, AtomicAssetOps } = require('freeverse-apisigner-js');
+
 // create web3 account from your private key
 // (other forms of creating web3 account could be substituted)
 const universe_owner_account = identity.accountFromPrivateKey(pvk);
@@ -68,10 +62,14 @@ const mutation = assetOps.mutation({ signature: sig });
 
 console.log(`
 ---------------
-Private key of universe owner: ${pvk}
-Public address of the new asset owner: ${owner}
-Universe: ${uni}
-User nonce value: ${nonce}
 Mutation to be sent to GraphQL endpoint:
 ${mutation}
 `);
+
+// FURTHER NOTES
+// The image needs to be uploaded first (see upload_image.js example)
+// In doing so, the query returns the IPFS CID.
+// That CID needs to be used here in the image field, with format:
+//    image: 'ipfs://CID'
+// Additionally, you can upload to IPFS by your own means too
+// (anyone can, after all, including the asset owner, at any point in time)
