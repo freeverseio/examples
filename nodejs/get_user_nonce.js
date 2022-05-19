@@ -2,24 +2,20 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
 
-const program = require('commander');
+/*
+Returns the asset_nonce, to be used for create_asset queries.
+
+INPUTS:
+- address: the web3 address of the user
+- universe: the id of the universe where create_asset will be executed
+- endpoint: the api endpoint
+*/
+
+const address = '0xF0429b534E1db4c5D0F700517B676f5EB7345AB2';
+const universe = 2;
+const endpoint = 'https://api.blackhole.gorengine.com';
+
 const fetch = require('isomorphic-fetch');
-
-// Returns the user_nonce, to be used for create_asset queries.
-// Usage:
-// node get_user_nonce.js -a 0xF0429b534E1db4c5D0F700517B676f5EB7345AB2 -u 2 -e 'https://api.blackhole.gorengine.com'
-program
-  .requiredOption('-a, --address <hex>')
-  .requiredOption('-u, --universe <int>')
-  .requiredOption('-e, --endpoint <url>')
-  .parse(process.argv);
-
-const opts = program.opts();
-Object.keys(opts).forEach((key) => console.log(`${key}: ${opts[key]}`));
-
-const {
-  address, universe, endpoint,
-} = program.opts();
 
 async function getUserNonce(freeverseId, universeId) {
   const getNonceQuery = `
@@ -46,8 +42,9 @@ async function getUserNonce(freeverseId, universeId) {
   return data === null ? 0 : data.nonce;
 }
 
-(async () => {
+const run = async () => {
   const nonce = await getUserNonce(address, universe);
   console.log('obtained noce: ', nonce);
-}
-)();
+};
+
+run();
