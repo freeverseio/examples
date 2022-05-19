@@ -2,14 +2,15 @@
 /* eslint-disable camelcase */
 
 // CREATES AN ASSET
-// Properties for asset following standard https://docs.livingassets.io/api/props_standard/
+// Properties for asset shall follow the standard
+// https://docs.livingassets.io/api/props_standard/
 
 // INPUTS:
 // pvk: the private key of the owner of the universe
 // owner: the id of the owner to whom the asset will be assigned
 // uni: the universe id
 // nonce: the Number used ONly onCE, see the get_user_nonce.js example
-// asset_props: the attributes of the asset, e.g. following Opensea standard.
+// asset_props: the attributes of the asset
 // asset_metadata: attributes of the asset that will not be certified by the blockchain
 const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d';
 const owner = '0x983c1A8FCf74CAF648fD51fd7A6d322a502ae789';
