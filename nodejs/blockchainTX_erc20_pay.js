@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-// MIT License
 
 const Eth = require('web3-eth');
 

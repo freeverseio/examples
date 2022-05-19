@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-// MIT License
-
 const identity = require('freeverse-crypto-js');
 const { digestBuyNowFromBuyNowId, sign } = require('freeverse-marketsigner-js');
 const argv = require('minimist')(process.argv.slice(2), {

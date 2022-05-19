@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-// MIT License
 
 const identity = require('freeverse-crypto-js');
 const argv = require('minimist')(process.argv.slice(2), { string: ['encrypted', 'password'] });

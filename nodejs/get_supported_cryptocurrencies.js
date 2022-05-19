@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-// MIT License
 
 // Returns all crypto currencies available. The data returned contains:
 // Main entry point:

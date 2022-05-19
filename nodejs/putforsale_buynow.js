@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-// MIT License
 
 const identity = require('freeverse-crypto-js');
 const { digestPutForSaleBuyNow, sign, getExpiryData } = require('freeverse-marketsigner-js');

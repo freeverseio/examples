@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
-// MIT License
 
 const identity = require('freeverse-crypto-js');
 const { createAssetOp, AtomicAssetOps } = require('freeverse-apisigner-js');

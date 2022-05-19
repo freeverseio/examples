@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-// MIT License
 
 const Accounts = require('web3-eth-accounts');
 const { getTokenDigest, composeToken } = require('freeverse-marketsigner-js');

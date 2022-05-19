@@ -1,4 +1,3 @@
-// MIT License
 
 // Returns an example provider that can be used in the examples of this repository
 // It receives a private key so that it can sign when

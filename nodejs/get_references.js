@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-// MIT License
 
 const getReferences = () => {
   // Returns params required to convert from time (in sec) to units of verse.
