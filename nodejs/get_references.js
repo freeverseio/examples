@@ -1,12 +1,16 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 
+/*
+* Returns params required to convert from time (in sec) to units of verse.
+* Verse is the Layer-2 equivalent of 'block' for a layer-1.
+* Each verse, which take place at 15 min intervals, the layer-2 is synced with layer-1.
+* To do the conversion, we need to first query 3 params:
+* - referenceVerse, referenceTime, verseInterval
+* These do not change, so you can query just once per session.
+*/
+
 const getReferences = () => {
-  // Returns params required to convert from time (in sec) to units of verse.
-  // Verse is the Layer-2 equivalent of 'block' for a layer-1.
-  // Each verse, which take place at 15 min intervals, the layer-2 is synced with layer-1.
-  // To do the conversion, we need to first query 3 params:
-  // - referenceVerse, referenceTime, verseInterval
-  // These do not change, so you can query just once per session.
   const getVerseReference = `
 query getVerseReference {
   allMultiverses {
@@ -27,8 +31,9 @@ query getVerseReference {
   }
 }
 `;
-  console.log(getVerseReference, getSafetyMargin);
-  // Imagine we get:
+  // we should return the obtained:
+  // - referenceVerse, referenceTime, verseInterval, safetyDeadlineMargin
+  // For the purpose of these tests, we will mock the answer:
   return {
     verseInterval: 900, // 15 min
     referenceTime: 1631531810, // Monday, 13 September 2021 11:16:50
