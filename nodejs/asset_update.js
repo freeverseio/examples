@@ -1,22 +1,24 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 
-// UPDATES AN ASSET
-// See asset_create for more info
+/*
+UPDATES AN ASSET
+See asset_create for more info
 
-// INPUTS:
-// pvk: the private key of the owner of the universe
-// asset: the id of the asset to be updated
-// uni: the universe id
-// nonce: the Number used ONly onCE, see the get_user_nonce.js example
-// updated_asset_props: the new attributes of the asset
-// updated_asset_metadata: the new attr. of the asset that will not be certified by the blockchain
+INPUTS:
+* pvk: the private key of the owner of the universe
+* asset: the id of the asset to be updated
+* uni: the universe id
+* nonce: the Number used ONly onCE, see the get_user_nonce.js example
+* updated_asset_props: the new attributes of the asset
+* updated_asset_metadata: the new attr. of the asset that will not be certified by the blockchain
+*/
 
 const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d';
 const asset = '1858476204501659870681251187806966130514471238263';
 const uni = '0';
 const nonce = '0';
-const updated_asset_props = { // properties for asset following standard https://docs.livingassets.io/api/props_standard/
+const updated_asset_props = {
   name: 'Supercool Dragon',
   description: 'Legendary creature that loves ice.',
   image: 'ipfs://QmPCHHeL1i6ZCUnQ1RdvQ5G3qccsjgQF8GkJrWAm54kdtB',
@@ -36,7 +38,7 @@ const updated_asset_props = { // properties for asset following standard https:/
     },
   ],
 };
-const updated_asset_metadata = { // any metadata you want
+const updated_asset_metadata = {
   private_data: 'that has been updated',
 };
 

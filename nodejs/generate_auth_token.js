@@ -7,7 +7,7 @@ It basically consists on signing a digest that is derived from the 'time' value,
 converting it to base64, and passing it as a string, concatenated after 'time',
 
 INPUTS:
-pvk: the private key of the entity generating the token
+- pvk: the private key of the entity generating the token
 */
 
 const pvk = '0xc6d398e89bf7cbda7663ca881bd992eb80ad170e4ca0bd65a8b1c719ee02bc67';
