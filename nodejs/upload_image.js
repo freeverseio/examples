@@ -1,36 +1,28 @@
 /* eslint-disable no-console */
 
+/*
+Uploads an image (to be run by the owner of a universe)
+
+INPUTS:
+* pvk: the privateKey of the universe owner
+* universe: the (uint) index of the universe
+* endpoint: the API endpoint
+* path: the local path to your image; currently supports jpeg, png, gif, webp, tiff.
+*/
+
+const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d';
+const universe = '0';
+const path = './images/sword.jpg';
+const endpoint = 'https://api.blackhole.gorengine.com';
+
+// Prepare the query
+
 const identity = require('freeverse-crypto-js');
 const { createReadStream } = require('fs');
 const FormData = require('form-data');
 const fetch = require('cross-fetch');
 const Hash = require('ipfs-only-hash');
 const signer = require('freeverse-apisigner-js');
-
-const argv = require('minimist')(process.argv.slice(2), { string: ['pvk', 'path', 'universe', 'endpoint'] });
-
-const {
-  pvk, endpoint, universe, path,
-} = argv;
-
-const checkArgs = () => {
-  const OK = pvk && universe && endpoint && path;
-  if (!OK) {
-    console.log(`
-    ---------------
-    Usage Example: 
-    node upload_image.js --pvk '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d' --universe '0' --path 'imgs/image.png' --endpoint 'https://api.blackhole.gorengine.com'
-
-    params:
-    * pvk: the privateKey of the universe owner
-    * universe: the (uint) index of the universe
-    * endpoint: the API endpoint
-    * path: the local path to your image; currently supports jpeg, png, gif, webp, tiff.
-    ---------------
-    `);
-  }
-  return OK;
-};
 
 const generateImgHash = async ({ file }) => {
   const fileHash = await Hash.of(file);
@@ -64,7 +56,7 @@ const run = async () => {
   // The query requires the signature of the universe owner:
   const universeOwnerAccount = identity.accountFromPrivateKey(pvk);
   const signature = signer.signImageUpload({
-    web3account: universeOwnerAccount,
+    web3Account: universeOwnerAccount,
     fileHash,
     universeIdx: universe,
   });
@@ -78,5 +70,4 @@ const run = async () => {
   }
 };
 
-const OK = checkArgs();
-if (OK) run();
+run();
