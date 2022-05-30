@@ -32,7 +32,7 @@ const signatureToSend = signature.substring(2, signature.length);
 const encryptedId = ''; // this param will be removed soon
 
 // inject results into final mutation to send to graphQL endpoint
-const assetMutation = `
+const linkMutation = `
 mutation {
   linkFreeverseId(
     input: {
@@ -45,4 +45,4 @@ mutation {
   )
 }`;
 
-console.log(assetMutation);
+console.log(linkMutation);
