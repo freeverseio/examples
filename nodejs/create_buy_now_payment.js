@@ -24,14 +24,14 @@ const digest = digestBuyNowFromBuyNowId({ buyNowId });
 // (other forms of creating web3 account could be subsituted)
 const buyerAccount = identity.accountFromPrivateKey(pvk);
 const signature = sign({ digest, web3account: buyerAccount });
-const signatureToSend = signature.substring(2, signature.length);
+const signatureWithout0x = signature.substring(2, signature.length);
 
 // inject results into final mutation to send to graphQL endpoint
 const assetMutation = `
 mutation { 
   createBuyNowPayment(
     input: { 
-      signature:"${signatureToSend}",
+      signature:"${signatureWithout0x}",
       buyNowId:"${buyNowId}",
       buyerId: "${buyerAccount.address}",
     }
