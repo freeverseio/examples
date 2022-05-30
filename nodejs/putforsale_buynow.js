@@ -49,7 +49,7 @@ const digest = digestPutForSaleBuyNow({
 });
 
 // create web3 account from your private key
-// (other forms of creating web3 account could be subsituted)
+// (other forms of creating web3 account could be substituted)
 const assetOwnerAccount = identity.accountFromPrivateKey(pvk);
 const signature = sign({ digest, web3account: assetOwnerAccount });
 const signatureWithout0x = signature.substring(2, signature.length);
