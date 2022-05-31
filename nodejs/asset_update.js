@@ -9,7 +9,7 @@ INPUTS:
 * pvk: the private key of the owner of the universe
 * asset: the id of the asset to be updated
 * uni: the universe id
-* nonce: the Number used ONly onCE, see the get_user_nonce.js example
+* nonce: the Number used ONly onCE, see the get_asset_nonce.js example
 * updated_asset_props: the new attributes of the asset
 * updated_asset_metadata: the new attr. of the asset that will not be certified by the blockchain
 */

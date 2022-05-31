@@ -44,7 +44,7 @@ async function getUserNonce(freeverseId, universeId) {
 
 const run = async () => {
   const nonce = await getUserNonce(address, universe);
-  console.log('obtained noce: ', nonce);
+  console.log('obtained nonce: ', nonce);
 };
 
 run();

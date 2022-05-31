@@ -41,7 +41,7 @@ async function getAssetNonce(id) {
 
 const run = async () => {
   const nonce = await getAssetNonce(assetId);
-  console.log('obtained noce: ', nonce);
+  console.log('obtained nonce: ', nonce);
 };
 
 run();
