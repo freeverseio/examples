@@ -37,4 +37,4 @@ mutation {
     }
   }
 ```
-You can send this directly to our endpoint in code, or use an application like [GraphQL Playground](https://github.com/graphql/graphql-playground) for testing purposes.
+You can send this directly to our API endpoint, or use an application like [GraphQL Playground](https://github.com/graphql/graphql-playground) for testing purposes.
