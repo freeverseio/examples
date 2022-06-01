@@ -23,7 +23,8 @@ For example, to learn about how to create an asset:
 * navigate to the nodejs directory and run ```node asset_create.js ```
 
 The output should be a GraphQL mutation pasted to the console:
-```mutation {
+```
+mutation {
     execute(
       input: {
         ops: ["{\"type\":\"create_asset\",\"msg\":{\"nonce\":0,\"owner_id\":\"0x983c1A8FCf74CAF648fD51fd7A6d322a502ae789\",\"props\":\"{\\\"name\\\":\\\"Supercool Dragon\\\",\\\"description\\\":\\\"Legendary creature that loves fire.\\\",\\\"image\\\":\\\"ipfs://QmPCHHeL1i6ZCUnQ1RdvQ5G3qccsjgQF8GkJrWAm54kdtB\\\",\\\"animation_url\\\":\\\"ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j\\\",\\\"attributes\\\":[{\\\"trait_type\\\":\\\"Rarity\\\",\\\"value\\\":\\\"Scarce\\\"},{\\\"trait_type\\\":\\\"Level\\\",\\\"value\\\":5},{\\\"trait_type\\\":\\\"Weight\\\",\\\"value\\\":123.5}]}\",\"metadata\":\"{\\\"private_data\\\":\\\"that only I will see\\\"}\"}}"],
