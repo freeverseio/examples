@@ -11,7 +11,7 @@ INPUTS:
 */
 
 const assetId = '26959946667150639795636137824065133404064571175676525320894378525171';
-const endpoint = 'https://api.blackhole.gorengine.com';
+const endpoint = '<endpoint_provided_by_freeverse>';
 
 const fetch = require('isomorphic-fetch');
 

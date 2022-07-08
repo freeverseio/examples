@@ -11,7 +11,7 @@ INPUTS:
 
 const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d';
 const universe = 0;
-const endpoint = 'https://api.blackhole.gorengine.com';
+const endpoint = '<endpoint_provided_by_freeverse>';
 
 // Preparing the query
 

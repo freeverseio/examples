@@ -13,7 +13,7 @@ INPUTS:
 
 const address = '0xF0429b534E1db4c5D0F700517B676f5EB7345AB2';
 const universe = 2;
-const endpoint = 'https://api.blackhole.gorengine.com';
+const endpoint = '<endpoint_provided_by_freeverse>';
 
 const fetch = require('isomorphic-fetch');
 
