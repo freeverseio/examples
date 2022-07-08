@@ -10,7 +10,8 @@ INPUTS:
 * pvk: the private key of the owner of the universe
 * owner: the id of the owner to whom the asset will be assigned
 * uni: the universe id
-* nonce: the Number used ONly onCE, see the get_user_nonce.js example
+* nonce: the Number used ONly onCE of the owner to whom the asset will be assigned,
+*        (see the get_user_nonce.js example)
 * asset_props: the attributes of the asset
 * asset_metadata: attributes of the asset that will not be certified by the blockchain
 */

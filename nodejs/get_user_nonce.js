@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 
 /*
-Returns the asset_nonce, to be used for create_asset queries.
+Returns the user_nonce, to be used for create_asset queries.
 
 INPUTS:
 - address: the web3 address of the user
