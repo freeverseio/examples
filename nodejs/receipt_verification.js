@@ -16,7 +16,6 @@ receipt = {
 * signature: the signature of the receipt by the relayer
 */
 
-
 const { receiptDigest } = require('freeverse-apisigner-js');
 const { ethers } = require('ethers');
 
