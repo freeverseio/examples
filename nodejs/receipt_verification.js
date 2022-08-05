@@ -1,5 +1,8 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable quotes */
 /* eslint-disable no-console */
-/* eslint-disable camelcase */
+/* eslint-disable no-useless-escape */
+/* eslint-disable comma-dangle */
 
 /*
 RETRIEVES THE SIGNER OF THE RECEIPT RECEIVED WHEN CREATING/UPDATING ASSETS
