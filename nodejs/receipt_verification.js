@@ -23,24 +23,23 @@ const queryReturn = {
   data: {
     execute: {
       ops: [
-        "{\"type\":\"create_asset\",\"msg\":{\"nonce\":226,\"owner_id\":\"0x0A0b39de3E704e8fB1C8E2A8C92c25A1A5f01930\",\"props\":\"{\\\"name\\\":\\\"Supercool Dragon\\\",\\\"description\\\":\\\"Legendary creature that loves ice.\\\",\\\"image\\\":\\\"ipfs://QmPCHHeL1i6ZCUnQ1RdvQ5G3qccsjgQF8GkJrWAm54kdtB\\\",\\\"animation_url\\\":\\\"ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j\\\",\\\"attributes\\\":[{\\\"trait_type\\\":\\\"Rarity\\\",\\\"value\\\":\\\"Common\\\"},{\\\"trait_type\\\":\\\"Level\\\",\\\"value\\\":10},{\\\"trait_type\\\":\\\"Weight\\\",\\\"value\\\":223.5}]}\",\"metadata\":\"{\\\"private_data\\\":\\\"that has been updated\\\"}\"}}",
-        "{\"type\":\"set_asset_props\",\"msg\":{\"nonce\":4,\"id\":\"9997220295222263808910038093126797702019127927349276\",\"props\":\"{\\\"name\\\":\\\"My First Living Asset\\\",\\\"description\\\":\\\"Freeverse living asset. The on-chain properties of this NFT can evolve.\\\",\\\"image\\\":\\\"ipfs://QmUn4gzAAY8vDFNnA25MopB1RWtMmwWdQCEMUe67XiPW8x\\\",\\\"animation_url\\\":\\\"ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j\\\",\\\"attributes\\\":[{\\\"trait_type\\\":\\\"Level\\\",\\\"value\\\":\\\"1\\\"},{\\\"trait_type\\\":\\\"Shape\\\",\\\"value\\\":\\\"Cilinder\\\"},{\\\"trait_type\\\":\\\"Creation date\\\",\\\"value\\\":\\\"2022-07-13 10:50:01\\\"}]}\",\"metadata\":\"{\\\"private_data\\\":\\\"that has been updated\\\"}\"}}"
+        "{\"type\":\"create_asset\",\"msg\":{\"nonce\":227,\"owner_id\":\"0x0A0b39de3E704e8fB1C8E2A8C92c25A1A5f01930\",\"props\":\"{\\\"name\\\":\\\"Supercool Dragon\\\",\\\"description\\\":\\\"Legendary creature that loves ice.\\\",\\\"image\\\":\\\"ipfs://QmPCHHeL1i6ZCUnQ1RdvQ5G3qccsjgQF8GkJrWAm54kdtB\\\",\\\"animation_url\\\":\\\"ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j\\\",\\\"attributes\\\":[{\\\"trait_type\\\":\\\"Rarity\\\",\\\"value\\\":\\\"Common\\\"},{\\\"trait_type\\\":\\\"Level\\\",\\\"value\\\":10},{\\\"trait_type\\\":\\\"Weight\\\",\\\"value\\\":223.5}]}\",\"metadata\":\"{\\\"private_data\\\":\\\"that has been updated\\\"}\"}}",
+        "{\"type\":\"set_asset_props\",\"msg\":{\"nonce\":5,\"id\":\"9997220295222263808910038093126797702019127927349276\",\"props\":\"{\\\"name\\\":\\\"My First Living Asset\\\",\\\"description\\\":\\\"Freeverse living asset. The on-chain properties of this NFT can evolve.\\\",\\\"image\\\":\\\"ipfs://QmUn4gzAAY8vDFNnA25MopB1RWtMmwWdQCEMUe67XiPW8x\\\",\\\"animation_url\\\":\\\"ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j\\\",\\\"attributes\\\":[{\\\"trait_type\\\":\\\"Level\\\",\\\"value\\\":\\\"1\\\"},{\\\"trait_type\\\":\\\"Shape\\\",\\\"value\\\":\\\"Cilinder\\\"},{\\\"trait_type\\\":\\\"Creation date\\\",\\\"value\\\":\\\"2022-07-13 10:50:01\\\"}]}\",\"metadata\":\"{\\\"private_data\\\":\\\"that has been updated\\\"}\"}}"
           ],
-      signature: "20f32ad2823836bc5e9fd430753bdfc775976e126c50daec4841d83aeb239cc65d22fd75043bd4e7c518d8094a29c35063c7212867bf943fc0c4dcbaea25e4f51c",
+      signature: "5746cdd53449f8c9d693125fdc44213c95c94904b2c547e7268c7f5028427138489ec2044d0737530671b2f2917d2163781f688718e2c613d05a124627eff64b1c",
       universe: 0,
-      verse: 60,
+      verse: 62,
       results: [
-        "{\"id\":\"116100285908186528320247798130938372411814959134021936\"}",
+        "{\"id\":\"116101747409823859223166001815771088694834615066564912\"}",
         "{\"result\":\"success\"}"
       ],
-      receiptSignature: "6d6a20333f17a84f8e0c2aaf46fa7168669f998c80b4c56a181c7d639d30b8a46e3823a01f1f847888cdd5a216b6a0ef5277612f90bb994fb5c2685fcb6bb40800"
+      receiptSignature: "c0337ea5f1a1ff35346fc589b59bc55f705dfdb2409d8e0717371832d8343e54460e733e63a4df7b035cf36b8b044befdf73a3087974eeb10197ec2dc95aa6851c"
     }
   }
 };
 
 const receipt = queryReturn.data.execute;
 const digest = receiptDigest({ receipt });
-console.log(digest);
 const recoveredAddress = ethers.utils.verifyMessage(
   ethers.utils.arrayify(digest),
   `0x${receipt.receiptSignature}`,
@@ -54,17 +53,17 @@ console.log('Recovered signer of receipt: ', recoveredAddress);
   "data": {
     "execute": {
       "ops": [
-        "{\"type\":\"create_asset\",\"msg\":{\"nonce\":226,\"owner_id\":\"0x0A0b39de3E704e8fB1C8E2A8C92c25A1A5f01930\",\"props\":\"{\\\"name\\\":\\\"Supercool Dragon\\\",\\\"description\\\":\\\"Legendary creature that loves ice.\\\",\\\"image\\\":\\\"ipfs://QmPCHHeL1i6ZCUnQ1RdvQ5G3qccsjgQF8GkJrWAm54kdtB\\\",\\\"animation_url\\\":\\\"ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j\\\",\\\"attributes\\\":[{\\\"trait_type\\\":\\\"Rarity\\\",\\\"value\\\":\\\"Common\\\"},{\\\"trait_type\\\":\\\"Level\\\",\\\"value\\\":10},{\\\"trait_type\\\":\\\"Weight\\\",\\\"value\\\":223.5}]}\",\"metadata\":\"{\\\"private_data\\\":\\\"that has been updated\\\"}\"}}",
-        "{\"type\":\"set_asset_props\",\"msg\":{\"nonce\":4,\"id\":\"9997220295222263808910038093126797702019127927349276\",\"props\":\"{\\\"name\\\":\\\"My First Living Asset\\\",\\\"description\\\":\\\"Freeverse living asset. The on-chain properties of this NFT can evolve.\\\",\\\"image\\\":\\\"ipfs://QmUn4gzAAY8vDFNnA25MopB1RWtMmwWdQCEMUe67XiPW8x\\\",\\\"animation_url\\\":\\\"ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j\\\",\\\"attributes\\\":[{\\\"trait_type\\\":\\\"Level\\\",\\\"value\\\":\\\"1\\\"},{\\\"trait_type\\\":\\\"Shape\\\",\\\"value\\\":\\\"Cilinder\\\"},{\\\"trait_type\\\":\\\"Creation date\\\",\\\"value\\\":\\\"2022-07-13 10:50:01\\\"}]}\",\"metadata\":\"{\\\"private_data\\\":\\\"that has been updated\\\"}\"}}"
+        "{\"type\":\"create_asset\",\"msg\":{\"nonce\":227,\"owner_id\":\"0x0A0b39de3E704e8fB1C8E2A8C92c25A1A5f01930\",\"props\":\"{\\\"name\\\":\\\"Supercool Dragon\\\",\\\"description\\\":\\\"Legendary creature that loves ice.\\\",\\\"image\\\":\\\"ipfs://QmPCHHeL1i6ZCUnQ1RdvQ5G3qccsjgQF8GkJrWAm54kdtB\\\",\\\"animation_url\\\":\\\"ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j\\\",\\\"attributes\\\":[{\\\"trait_type\\\":\\\"Rarity\\\",\\\"value\\\":\\\"Common\\\"},{\\\"trait_type\\\":\\\"Level\\\",\\\"value\\\":10},{\\\"trait_type\\\":\\\"Weight\\\",\\\"value\\\":223.5}]}\",\"metadata\":\"{\\\"private_data\\\":\\\"that has been updated\\\"}\"}}",
+        "{\"type\":\"set_asset_props\",\"msg\":{\"nonce\":5,\"id\":\"9997220295222263808910038093126797702019127927349276\",\"props\":\"{\\\"name\\\":\\\"My First Living Asset\\\",\\\"description\\\":\\\"Freeverse living asset. The on-chain properties of this NFT can evolve.\\\",\\\"image\\\":\\\"ipfs://QmUn4gzAAY8vDFNnA25MopB1RWtMmwWdQCEMUe67XiPW8x\\\",\\\"animation_url\\\":\\\"ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j\\\",\\\"attributes\\\":[{\\\"trait_type\\\":\\\"Level\\\",\\\"value\\\":\\\"1\\\"},{\\\"trait_type\\\":\\\"Shape\\\",\\\"value\\\":\\\"Cilinder\\\"},{\\\"trait_type\\\":\\\"Creation date\\\",\\\"value\\\":\\\"2022-07-13 10:50:01\\\"}]}\",\"metadata\":\"{\\\"private_data\\\":\\\"that has been updated\\\"}\"}}"
       ],
-      "signature": "20f32ad2823836bc5e9fd430753bdfc775976e126c50daec4841d83aeb239cc65d22fd75043bd4e7c518d8094a29c35063c7212867bf943fc0c4dcbaea25e4f51c",
+      "signature": "5746cdd53449f8c9d693125fdc44213c95c94904b2c547e7268c7f5028427138489ec2044d0737530671b2f2917d2163781f688718e2c613d05a124627eff64b1c",
       "universe": 0,
-      "verse": 60,
+      "verse": 62,
       "results": [
-        "{\"id\":\"116100285908186528320247798130938372411814959134021936\"}",
+        "{\"id\":\"116101747409823859223166001815771088694834615066564912\"}",
         "{\"result\":\"success\"}"
       ],
-      "receiptSignature": "6d6a20333f17a84f8e0c2aaf46fa7168669f998c80b4c56a181c7d639d30b8a46e3823a01f1f847888cdd5a216b6a0ef5277612f90bb994fb5c2685fcb6bb40800"
+      "receiptSignature": "c0337ea5f1a1ff35346fc589b59bc55f705dfdb2409d8e0717371832d8343e54460e733e63a4df7b035cf36b8b044befdf73a3087974eeb10197ec2dc95aa6851c"
     }
   }
 }
