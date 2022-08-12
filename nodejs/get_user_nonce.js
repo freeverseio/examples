@@ -17,10 +17,10 @@ const endpoint = '<endpoint_provided_by_freeverse>';
 
 const fetch = require('isomorphic-fetch');
 
-async function getUserNonce(freeverseId, universeId) {
+async function getUserNonce(web3Address, universeId) {
   const getNonceQuery = `
-        query($freeverseId: String!, $universe: Int!) {
-            usersUniverseByUserIdAndUniverseId(universeId: $universe, userId: $freeverseId){
+        query($web3Address: String!, $universe: Int!) {
+            usersUniverseByUserIdAndUniverseId(universeId: $universe, userId: $web3Address){
               nonce
             }
           }
@@ -32,7 +32,7 @@ async function getUserNonce(freeverseId, universeId) {
     body: JSON.stringify({
       query: getNonceQuery,
       variables: {
-        freeverseId,
+        web3Address,
         universe: +universeId,
       },
     }),
