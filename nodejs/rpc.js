@@ -10,7 +10,7 @@ const web3 = new Web3(nodeRpcURL['rpc-url']);
 
 const main = async () => {
   const chainId = await web3.getChainId();
-  console.log('chain id:', chainId);
+  console.log('chain assetId:', chainId);
 
   const blockNumber = await web3.getBlockNumber();
   console.log('blockNumber:', blockNumber);
@@ -19,13 +19,14 @@ const main = async () => {
   const balance = await web3.getBalance(address);
   console.log(`balance(${address}):`, balance);
 
-  const contract = new web3.Contract(artifact.abi, '0x92698ed3E383c8D808FAe159a3848Aa88cCC4FB1');
+  const erc721Address = '0x92698ed3E383c8D808FAe159a3848Aa88cCC4FB1';
+  const contract = new web3.Contract(artifact.abi, erc721Address);
 
-  const id = new BN('3546072660871964413345957628868962292360549838997');
-  console.log(`\n${id}`);
-  const owner = await contract.methods.ownerOf(id).call();
+  const assetId = new BN('3546072660871964413345957628868962292360549838997');
+  console.log(`\n${assetId}`);
+  const owner = await contract.methods.ownerOf(assetId).call();
   console.log('=> ownerOf:', owner);
-  const tokenURI = await contract.methods.tokenURI(id).call();
+  const tokenURI = await contract.methods.tokenURI(assetId).call();
   console.log('=> tokenURI:', tokenURI);
 };
 main();
