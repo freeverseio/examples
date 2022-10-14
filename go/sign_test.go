@@ -51,10 +51,10 @@ func AddressFromHashAndSignature(hash common.Hash, sign []byte, wasHashPrefixed 
 	if !wasHashPrefixed {
 		hash = common.BytesToHash(accounts.TextHash(hash.Bytes()))
 	}
-	return addressFromHashAndSignature2(hash.Bytes(), sg)
+	return addressFromHashAndSignatureFromStandardV(hash.Bytes(), sg)
 }
 
-func addressFromHashAndSignature2(hash, signature []byte) (common.Address, error) {
+func addressFromHashAndSignatureFromStandardV(hash, signature []byte) (common.Address, error) {
 	sigPublicKey, err := crypto.Ecrecover(hash, signature)
 	if err != nil {
 		return common.Address{}, err
