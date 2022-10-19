@@ -89,7 +89,9 @@ const run = async () => {
   };
 
   // This is the blockchain contract TX sending. Handle events as usual.
-  paymentsInstance.buyNow({ paymentData, operatorSignature, sellerSignature, from: buyerAddr })
+  paymentsInstance.buyNow({
+    paymentData, operatorSignature, sellerSignature, from: buyerAddr,
+  })
     .once('receipt', onReceiptHandler)
     .on('confirmation', onConfirmationHandler)
     .on('error', (err) => {
