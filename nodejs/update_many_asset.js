@@ -5,7 +5,7 @@ const fetch = require('isomorphic-fetch');
 const fs = require('fs');
 const identity = require('freeverse-crypto-js');
 const { updateAssetOp, AtomicAssetOps } = require('freeverse-apisigner-js');
-const { request, gql } = require("graphql-request");
+const { request, gql } = require('graphql-request');
 
 class FreeverseAPI {
   constructor(env) {
@@ -32,24 +32,60 @@ class FreeverseAPI {
   }
 
   async getAllAssetsInUniverse() {
+    const limit = 1000;
     const { endpoint, universe } = this;
-    const query = gql`
+    const totalCountQuery = gql`
       query ($universe: Int!) {
-        allAssets(condition: {universeId: $universe} ) {
+        allAssets(condition: { universeId: $universe }) {
+          totalCount
+        }
+      }
+    `;
+    const totalCountResult = await request(endpoint, totalCountQuery, {
+      universe,
+    });
+    if (!totalCountResult || !totalCountResult.allAssets) return [];
+
+    const query = gql`
+      query ($universe: Int!, $afterCursor: Cursor, $limit: Int) {
+        allAssets(
+          condition: { universeId: $universe }
+          first: $limit
+          after: $afterCursor
+        ) {
           nodes {
             id
             props
             metadata
           }
+          totalCount
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
         }
       }
     `;
-    const result = await request(endpoint, query, {
-      universe,
-    });
+    let assets = [];
+    let afterCursor;
+    console.log(`fetching assets...`);
+    for (
+      let index = 0;
+      index < Math.ceil(totalCountResult.allAssets.totalCount / limit);
+      index++
+    ) {
+      const result = await request(endpoint, query, {
+        universe,
+        afterCursor,
+        limit,
+      });
+      if (!result || !result.allAssets) return [];
+      afterCursor = result.allAssets.pageInfo.endCursor;
+      assets = [...assets, ...result.allAssets.nodes];
+      console.log(`${assets.length}`);
+    }
 
-    if (!result || !result.allAssets) return [];
-    return result.allAssets.nodes;
+    return assets;
   }
 
   async getAsset(id) {
@@ -74,13 +110,13 @@ class FreeverseAPI {
   }
 
   async pushAsset(asset, assetOps) {
-    const nonce = await this.getAssetNonce(asset['id']);
+    const nonce = await this.getAssetNonce(asset.id);
     console.log(` Got asset nonce = ${nonce}`);
     const updatedAsset = {
       nonce: JSON.parse(nonce),
-      assetId: asset['id'],
-      props: JSON.parse(asset['props']),
-      metadata: {ZoranTest: 'ZoranTest-' + Math.floor(Math.random() * 1000)},
+      assetId: asset.id,
+      props: JSON.parse(asset.props),
+      metadata: { ZoranTest: `ZoranTest-${Math.floor(Math.random() * 1000)}` },
     };
     const op = updateAssetOp(updatedAsset);
     assetOps.push({ op });
