@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
+/* eslint-disable no-await-in-loop */
 
-const fetch = require('isomorphic-fetch');
 const fs = require('fs');
 const identity = require('freeverse-crypto-js');
 const { updateAssetOp, AtomicAssetOps } = require('freeverse-apisigner-js');
@@ -68,11 +68,11 @@ class FreeverseAPI {
     `;
     let assets = [];
     let afterCursor;
-    console.log(`fetching assets...`);
+    console.log('fetching assets...');
     for (
       let index = 0;
       index < Math.ceil(totalCountResult.allAssets.totalCount / limit);
-      index++
+      index += index + 1
     ) {
       const result = await request(endpoint, query, {
         universe,
@@ -128,7 +128,7 @@ class FreeverseAPI {
     console.log(`found ${allAssets.length} assets`);
 
     const assetOps = new AtomicAssetOps({ universeId: universe });
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 50; i += 1) {
       console.log(` - Pushing asset to mutation ${i}`);
       await this.pushAsset(allAssets[i], assetOps);
     }
@@ -143,14 +143,13 @@ class FreeverseAPI {
     console.log('Sending Mutation... :', mutation);
 
     return request(endpoint, mutation).then((response) => {
-      console.log("#### Update Response:", response);
-      const resultTemp = response.execute.results.map((resultTemp) => JSON.parse(resultTemp));
+      console.log('#### Update Response:', response);
+      const resultTemp = response.execute.results.map((res) => JSON.parse(res));
       return resultTemp[0];
     });
   }
 }
 
-env = JSON.parse(fs.readFileSync('.env'));
-const api = new FreeverseAPI(env);
+const api = new FreeverseAPI(JSON.parse(fs.readFileSync('.env')));
 
 api.updateAllAssets();
