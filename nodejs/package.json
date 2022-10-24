@@ -18,6 +18,7 @@
     "freeverse-apisigner-js": "^1.1.1",
     "freeverse-crypto-js": "^1.0.6",
     "freeverse-marketsigner-js": "^3.0.0",
+    "graphql-request": "^5.0.0",
     "ipfs-only-hash": "4.0.0",
     "isomorphic-fetch": "^3.0.0",
     "web3-eth": "^1.7.3",
