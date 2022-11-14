@@ -4,8 +4,8 @@
 const { request, gql } = require('graphql-request');
 
 /*
-PARSES EVENTS FROM THE L2 NODE
-In this example, 'transfer' events are parsed
+PARSES EVENTS FROM AN L2 NODE
+In this example, only 'transfer' events are parsed
 
 INPUTS:
 * endpoint: the URL of the L2 node (this example uses a local node)
@@ -33,21 +33,26 @@ async function getEvents(offset, first) {
       }
     }
   `;
-
   const result = await request(endpoint, query, { offset, first });
   return result?.allEvents;
+}
+
+function printEvent(event) {
+  console.log(`New ${eventType} event:
+  - verse =  ${event.tx_verse}
+  - assetId = ${event.asset_id}
+  - transferredTo = ${event.address}`);
 }
 
 const run = async () => {
   for (let offset = eventIdxStart; offset < eventIdxStop; offset += maxEventsPerQuery) {
     console.log(`Fetching ${maxEventsPerQuery} events of type "${eventType}", starting from eventIdx: ${offset}`);
+
     const result = await getEvents(offset, maxEventsPerQuery);
     result.nodes.forEach((e) => {
-      if (e.type === eventType) {
-        const event = JSON.parse(e.event);
-        console.log(`- verse, assetId, transferredTo = ${event.tx_verse}, ${event.asset_id}, ${event.address}`);
-      }
+      if (e.type === eventType) printEvent(JSON.parse(e.event));
     });
+
     const nEventsFound = result.nodes.length;
     if (nEventsFound < maxEventsPerQuery) {
       console.log(`All events have been scanned. Last event idx = ${offset + nEventsFound}`);
