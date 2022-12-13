@@ -11,36 +11,32 @@ INPUTS:
 
 const email = 'john@ama.com';
 const alias = 'my first account';
-
 const identity = require('freeverse-crypto-js');
-const { digestLinkId, sign } = require('freeverse-marketsigner-js');
+const { digestLinkAddress, sign } = require('freeverse-marketsigner-js');
 
-// In this example, we create a web3 account from scratch, so that
+// In this example, a web3 account is created from scratch, so that
 // the user can sign. You can use your own web3 wallet in your app.
 const randomPvk = '0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0';
 const userAccount = identity.accountFromPrivateKey(randomPvk);
 const userWeb3Address = userAccount.address;
 
 // Compute the digest to be signed:
-const digest = digestLinkId({
+const digest = digestLinkAddress({
   email,
-  freeverseId: userWeb3Address,
+  web3Address: userWeb3Address,
 });
 const signature = sign({ digest, web3account: userAccount });
 const signatureWithout0x = signature.substring(2, signature.length);
 
-const encryptedId = ''; // this param will be removed soon
-
 // inject results into final mutation to send to graphQL endpoint
 const linkMutation = `
 mutation {
-  linkFreeverseId(
+  linkWeb3AddressToEmail(
     input: {
       email: "${email}",
       name: "${alias}",
-      freeverseId: "${userWeb3Address}",
+      web3Address: "${userWeb3Address}",
       signature: "${signatureWithout0x}",
-      encryptedId: "${encryptedId}",
     }
   )
 }`;
