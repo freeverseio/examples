@@ -7,6 +7,10 @@ The request needs to be signed by the owner of the web3 address
 INPUTS:
 - email: the email to be linked
 - alias: an arbitrary string to describe the web3address
+- web3Address: the web3 address to be linked
+- signature: the signature of web3 address authorizing the process of linking it to the email
+- universeName: the name of the application that will appear in the email that the user will receive
+- language: the language used in the email (e.g "en" for English)
 */
 
 const email = 'john@ama.com';
