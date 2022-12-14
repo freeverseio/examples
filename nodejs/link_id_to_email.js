@@ -34,7 +34,7 @@ mutation {
   linkWeb3AddressToEmail(
     input: {
       email: "${email}",
-      name: "${alias}",
+      alias: "${alias}",
       web3Address: "${userWeb3Address}",
       signature: "${signatureWithout0x}",
     }
