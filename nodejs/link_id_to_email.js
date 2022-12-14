@@ -37,6 +37,8 @@ mutation {
       alias: "${alias}",
       web3Address: "${userWeb3Address}",
       signature: "${signatureWithout0x}",
+      universeName: "My Amazing App",
+      language: "en",
     }
   )
 }`;
