@@ -3,9 +3,9 @@
 
 /*
 WITHDRAWS EARNINGS FROM HAVING SOLD IN NATIVE CRYPTOCURRENCY
-Note: before running this transaction a call to the mutation cashout must be done
+Note: before running this transaction a call to the mutation cashoutCrypto must be done
   to collect the results from it, which are needed to generate the input for this transaction.
-  Mutation Cashout returns:
+  Mutation CashoutCrypto returns:
     {
       signature: String!
       paymentId: String!
@@ -17,7 +17,7 @@ Note: before running this transaction a call to the mutation cashout must be don
 INPUTS
 * pvk: the private key of the seller
 
-params related to the payment transaction, all of them returned when calling the cashout mutation
+params related to the payment transaction, all of them returned when calling the cashoutCrypto mutation
 * paymentId: id that identifies the payment in the escrow contract
 * assetTransferSuccess: boolean indicating the success or otherwise of the asset transfer from seller to buyer
 * operatorSig: the signature that FV issues, which certifies all of the params above.
