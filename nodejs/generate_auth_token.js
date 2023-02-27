@@ -9,18 +9,17 @@ converting it to base64, and passing it as a string, concatenated after 'time',
 INPUTS:
 - pvk: the private key of the entity generating the token
 */
-
 const pvk = '0xc6d398e89bf7cbda7663ca881bd992eb80ad170e4ca0bd65a8b1c719ee02bc67';
 
 // Generating the token
-
 const Accounts = require('web3-eth-accounts');
 const { getTokenDigest, composeToken } = require('freeverse-marketsigner-js');
 
-const now = new Date().getTime() / 1000;
-const tokenDigest = getTokenDigest({ time: now });
-const signature = new Accounts().sign(tokenDigest, pvk);
-const token = composeToken({ time: now, sig: signature.signature });
+const time = Math.floor(Date.now() / 1000)
+const accounts = new Accounts();
+const tokenDigest = getTokenDigest({ time });
+const sig = accounts.sign(tokenDigest, pvk);
+const token = composeToken({ time, sig: sig.signature });
 
 console.log(`
 ---------------
