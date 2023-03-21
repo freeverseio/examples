@@ -13,14 +13,14 @@ INPUTS:
 - language: the language used in the email (e.g "en" for English)
 */
 
-const email = 'john@ama.com';
-const alias = 'my first account';
+const email = 'gerard@freeverse.io';
+const alias = 'My linked account';
 const identity = require('freeverse-crypto-js');
 const { digestLinkAddress, sign } = require('freeverse-marketsigner-js');
 
 // In this example, a web3 account is created from scratch, so that
 // the user can sign. You can use your own web3 wallet in your app.
-const randomPvk = '0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0';
+const randomPvk = '0x773c7e71d860cc222bd66a096bb41180c0308711b2ad9263358f35fb0f1f6c15';
 const userAccount = identity.accountFromPrivateKey(randomPvk);
 const userWeb3Address = userAccount.address;
 
@@ -48,3 +48,6 @@ mutation {
 }`;
 
 console.log(linkMutation);
+
+
+// This mutation needs to be authorized with an http header b2b token
