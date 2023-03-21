@@ -13,7 +13,7 @@ INPUTS:
 - language: the language used in the email (e.g "en" for English)
 */
 
-const email = 'gerard@freeverse.io';
+const email = 'john@ama.com';
 const alias = 'My linked account';
 const identity = require('freeverse-crypto-js');
 const { digestLinkAddress, sign } = require('freeverse-marketsigner-js');
@@ -48,6 +48,5 @@ mutation {
 }`;
 
 console.log(linkMutation);
-
 
 // This mutation needs to be authorized with an http header b2b token
