@@ -11,12 +11,10 @@ INPUTS:
 const identity = require('freeverse-crypto-js');
 const { digestUnlinkAddress, sign } = require('freeverse-marketsigner-js');
 
-
 // In this example, a web3 account is created from scratch, so that
 // the user can sign. You can use your own web3 wallet in your app.
-const pvk = '0x773c7e71d860cc222bd66a096bb41180c0308711b2ad9263358f35fb0f1f6c15';
-const email = 'gerard@freeverse.io';
-
+const pvk = '0x773c7e71d860cc222bd66a096bb41180c0308711b2ad9';
+const email = 'john@ama.com';
 
 const userAccount = identity.accountFromPrivateKey(pvk);
 const userWeb3Address = userAccount.address;
