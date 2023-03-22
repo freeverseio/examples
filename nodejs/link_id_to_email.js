@@ -3,20 +3,22 @@
 /*
 Links a web3 address to an email (for minimal KYC)
 The request needs to be signed by the owner of the web3 address
+NOTE: This mutation needs to include an authorization b2b token in the http header
 
 INPUTS:
 - email: the email to be linked
 - alias: an arbitrary string to describe the web3address
 - web3Address: the web3 address to be linked
-- signature: the signature of web3 address authorizing the process of linking it to the email
+- signature: the signature by the web3 address authorizing the process of linking it to the email
 - universeName: the name of the application that will appear in the email that the user will receive
 - language: the language used in the email (e.g "en" for English)
 */
 
-const email = 'john@ama.com';
-const alias = 'my first account';
 const identity = require('freeverse-crypto-js');
 const { digestLinkAddress, sign } = require('freeverse-marketsigner-js');
+
+const email = 'john@ama.com';
+const alias = 'my first account';
 
 // In this example, a web3 account is created from scratch, so that
 // the user can sign. You can use your own web3 wallet in your app.
@@ -48,5 +50,3 @@ mutation {
 }`;
 
 console.log(linkMutation);
-
-// This mutation needs to be authorized with an http header b2b token
