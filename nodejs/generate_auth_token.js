@@ -15,7 +15,7 @@ const pvk = '0xc6d398e89bf7cbda7663ca881bd992eb80ad170e4ca0bd65a8b1c719ee02bc67'
 const Accounts = require('web3-eth-accounts');
 const { getTokenDigest, composeToken } = require('freeverse-marketsigner-js');
 
-const time = Math.floor(Date.now() / 1000)
+const time = Math.floor(Date.now() / 1000);
 const accounts = new Accounts();
 const tokenDigest = getTokenDigest({ time });
 const sig = accounts.sign(tokenDigest, pvk);
