@@ -36,7 +36,7 @@ mutation{
       web3Address: "${userWeb3Address}"
     })
   }
-`
+`;
 console.log(unlinkWeb3AddressMutation);
 
 // This mutation needs to be authorized with an http header b2b token
