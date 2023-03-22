@@ -48,3 +48,5 @@ mutation {
 }`;
 
 console.log(linkMutation);
+
+// This mutation needs to be authorized with an http header b2b token
