@@ -10,6 +10,7 @@ INPUTS:
 * price: always an integer, in units the lowest possible unit of that cryptocurrency
 * rnd: a random number, to be generated in front end for each different query
 * timeValidUntil: when will the buynow end (Thursday, 23 September 2021 11:16:50)
+* userIp: seller IP, mandatory for fiat buynows, needed to comply with payment providers T&C
 */
 
 const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d';
@@ -18,6 +19,7 @@ const price = 345;
 const rnd = 12342234;
 const timeValidUntil = '1632395810';
 const assetId = '36771977682424071759165601888702044610709221343463';
+const userIp = '1.2.3.4';
 
 // Preparing the query
 
@@ -57,7 +59,7 @@ const signatureWithout0x = signature.substring(2, signature.length);
 // inject results into final mutation to send to graphQL endpoint
 const putForSaleMutation = `
 mutation { 
-  createBuyNowFromPutForSale(
+  createBuyNow(
     input: { 
       assetId: "${assetId}", 
       currencyId: ${currencyId}, 
@@ -65,6 +67,7 @@ mutation {
       rnd: ${rnd}, 
       validUntil: "${validUntil}", 
       signature: "${signatureWithout0x}",
+      userIp: "${userIp}",
     }
   )
 }`;
