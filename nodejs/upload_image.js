@@ -10,7 +10,7 @@ INPUTS:
 * path: the local path to your image; currently supports jpeg, png, gif, webp, tiff.
 */
 
-const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d';
+const pvk = '<your_pvk>';
 const universe = '0';
 const path = './images/sword.jpg';
 const endpoint = '<endpoint_provided_by_freeverse>';
