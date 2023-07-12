@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const identity = require('freeverse-crypto-js');
+const Accounts = require('web3-eth-accounts');
 const Utils = require('web3-utils');
 const EthCrypto = require('eth-crypto');
 
@@ -38,7 +38,7 @@ const run = async () => {
 
   // First, Bob creates his publicKey.
   // If Bob already had a private/public key pair, he'd skip the first line
-  const bobId = identity.createNewAccount(); // creates a pair
+  const bobId = new Accounts().create(); // creates a pair
   const bobPrivateKey = bobId.privateKey;
   const bobPublicKey = EthCrypto.publicKeyByPrivateKey(bobPrivateKey);
 
