@@ -20,7 +20,7 @@ const encryptWithPublicKey = async (textToEncrypt, publicKey) => {
 const decryptWithPrivateKey = async (encryptedString, privateKey) => {
   // converting the encypted String into an encrypted object
   const encryptedObject = EthCrypto.cipher.parse(encryptedString);
-  // decrypt the en encrypted object with the private key
+  // decrypt the encrypted object with the private key
   const decrypted = await EthCrypto.decryptWithPrivateKey(
     privateKey,
     encryptedObject,
