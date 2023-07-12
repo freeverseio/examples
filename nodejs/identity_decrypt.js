@@ -16,7 +16,7 @@ const encrypted = 'c33dcc598252fbbb4a94ff2d0f70dbe7d77360d8ca4a036ad1dd80bc4c7bb
 const identity = require('freeverse-crypto-js');
 
 const pvk = identity.decryptIdentity(encrypted, password);
-const web3Address = identity.freeverseIdFromPrivateKey(pvk);
+const web3Address = identity.web3AddressFromPrivateKey(pvk);
 
 console.log(`
 ---------------
