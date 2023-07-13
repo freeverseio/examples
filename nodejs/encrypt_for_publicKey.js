@@ -1,6 +1,32 @@
 /* eslint-disable no-console */
-const identity = require('freeverse-crypto-js');
+const Accounts = require('web3-eth-accounts');
 const Utils = require('web3-utils');
+const EthCrypto = require('eth-crypto');
+
+// encrypts a string so that it can only be decrypted
+// by the owner of the privKey that corresponds to the publicKey
+const encryptWithPublicKey = async (textToEncrypt, publicKey) => {
+  // obtaining an object with the encrypted data
+  const encryptedObject = await EthCrypto.encryptWithPublicKey(
+    publicKey,
+    textToEncrypt,
+  );
+  // converting the encrypted object into a encrypted String
+  const encryptedString = EthCrypto.cipher.stringify(encryptedObject);
+  return encryptedString;
+};
+
+// decrypts a string that was encrypted for a given publicKey
+const decryptWithPrivateKey = async (encryptedString, privateKey) => {
+  // converting the encypted String into an encrypted object
+  const encryptedObject = EthCrypto.cipher.parse(encryptedString);
+  // decrypt the encrypted object with the private key
+  const decrypted = await EthCrypto.decryptWithPrivateKey(
+    privateKey,
+    encryptedObject,
+  );
+  return decrypted;
+};
 
 /*
 Encrypts a message that can only be decrpypted by the owner of a public key
@@ -12,9 +38,9 @@ const run = async () => {
 
   // First, Bob creates his publicKey.
   // If Bob already had a private/public key pair, he'd skip the first line
-  const bobId = identity.createNewAccount(); // creates a pair
+  const bobId = new Accounts().create(); // creates a pair
   const bobPrivateKey = bobId.privateKey;
-  const bobPublicKey = identity.publicKeyFromPrivateKey(bobPrivateKey);
+  const bobPublicKey = EthCrypto.publicKeyByPrivateKey(bobPrivateKey);
 
   // Bob communicates his public key to Alice. The public key can be published without fear.
   console.log('Bob Private key (never show to anyone)', bobPrivateKey);
@@ -31,12 +57,12 @@ const run = async () => {
   const jsonObject = { email: hashedEmail, id: userId };
   console.log('Object that Alice wants to send to Bob: ', jsonObject);
 
-  const encryptedString = await identity.encryptWithPublicKey(
+  const encryptedString = await encryptWithPublicKey(
     JSON.stringify(jsonObject),
     bobPublicKey,
   );
   console.log('Alice actually sends this string: ', encryptedString);
-  const decryptedString = await identity.decryptWithPrivateKey(encryptedString, bobPrivateKey);
+  const decryptedString = await decryptWithPrivateKey(encryptedString, bobPrivateKey);
   const decryptedJson = JSON.parse(decryptedString);
   console.log('Bob recovers the original json: ', decryptedJson);
 };

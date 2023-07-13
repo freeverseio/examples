@@ -74,7 +74,7 @@ const run = async () => {
     wasSuccessful: assetTransferSuccess,
   };
 
-  const sellerAddr = identity.freeverseIdFromPrivateKey(pvk);
+  const sellerAddr = identity.web3AddressFromPrivateKey(pvk);
 
   // This is the blockchain contract TX sending. Handle events as usual.
   paymentsInstance.finalizeAndWithdraw(

@@ -72,7 +72,7 @@ async function run() {
 
   // The call to the .pay function just requires this struct to be built
   // from the params received in the create_buynow_payment mutation
-  const buyerAddr = identity.freeverseIdFromPrivateKey(pvk);
+  const buyerAddr = identity.web3AddressFromPrivateKey(pvk);
   const paymentData = {
     paymentId,
     amount: price.toString(),
