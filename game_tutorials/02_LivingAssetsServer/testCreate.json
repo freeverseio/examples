@@ -1,0 +1,26 @@
+{
+    "owner":"0x291081e5a1bF0b9dF6633e4868C88e1FA48900e7", 
+    "props":{
+        "name": "Supercool Dragon",
+        "description": "Legendary creature that loves fire.", 
+        "image": "ipfs://QmPCHHeL1i6ZCUnQ1RdvQ5G3qccsjgQF8GkJrWAm54kdtB", 
+        "animation_url": "ipfs://QmefzYXCtUXudCy9LYjU4biapHJiP26EGYS8hQjpei472j", 
+        "attributes": [ 
+            {
+            "trait_type": "Rarity", 
+            "value": "Scarce"
+            }, 
+            {
+            "trait_type": "Level", 
+            "value": 5
+            }, 
+            {
+            "trait_type": "Weight", 
+            "value": 123.5
+            }  
+        ] 
+    }, 
+    "metadata":{
+        "info": "which is private"
+    }
+}
