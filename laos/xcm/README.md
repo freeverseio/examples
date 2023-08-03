@@ -31,6 +31,8 @@ Before running, make sure to set private keys for source/target accounts in a lo
 
 * Moonbeam SDK: https://docs.moonbeam.network/builders/interoperability/xcm/xcm-sdk/v1/xcm-sdk/
 
+* Living Document for v3 to v2 differences and things to take into account: https://hackmd.io/@alemart/HyjxRZY2s
+
 * Review about XCM: https://docs.moonbeam.network/builders/interoperability/xcm/overview/
 
 * Execution via XCM: https://docs.moonbeam.network/builders/interoperability/xcm/send-execute-xcm/
