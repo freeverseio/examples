@@ -4,6 +4,6 @@ The repository contains the complete code for the tutorial on creating a basic s
 
 ## Usage
 ```
-npm install
+npm ci
 node index.js
 ```
