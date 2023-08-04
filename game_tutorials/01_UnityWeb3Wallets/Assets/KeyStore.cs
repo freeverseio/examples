@@ -62,7 +62,12 @@ public class KeyStore : MonoBehaviour
         EncryptedID = keyPair.EncryptedPvk;
         Address = keyPair.Address;
 
-        print("Key created and stored");
+        print("Wallet created and stored.");
+        // print result to console
+        print("Original encrypted " + keyPair.EncryptedPvk);
+        print("Public Key " + keyPair.PublicKey);
+        print("Address " + keyPair.Address);
+        print("Private Key " + pvk);
     }
 
     void LoadKeysFromStore()
