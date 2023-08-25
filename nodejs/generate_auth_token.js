@@ -19,12 +19,12 @@ const { getTokenDigest, composeToken } = require('freeverse-marketsigner-js');
 
 const now = new Date().getTime() / 1000;
 const tokenDigest = getTokenDigest({ time: now });
-const signature = new Accounts().sign(tokenDigest, pvk);
+const signature = Accounts.sign(tokenDigest, pvk);
 const token = composeToken({ time: now, sig: signature.signature });
 
 console.log(`
 ---------------
 Generated token: ${token}
 Include it in http header as: 
-  headers: { Authorization: Freeverse ${token} }
+  headers: { "Authorization": "Freeverse ${token}" }
 ---------------`);

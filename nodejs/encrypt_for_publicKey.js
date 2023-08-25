@@ -38,7 +38,7 @@ const run = async () => {
 
   // First, Bob creates his publicKey.
   // If Bob already had a private/public key pair, he'd skip the first line
-  const bobId = new Accounts().create(); // creates a pair
+  const bobId = Accounts.create(); // creates a pair
   const bobPrivateKey = bobId.privateKey;
   const bobPublicKey = EthCrypto.publicKeyByPrivateKey(bobPrivateKey);
 

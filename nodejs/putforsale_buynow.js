@@ -6,18 +6,18 @@ Puts an asset for sale in BuyNow mode (as opposite to auction)
 INPUTS:
 * pvk: the private key of the owner of the asset
 * assetId
-* currencyId: e.g. currencyId = 1 for XDAI
+* currencyId: e.g. currencyId = 5 for Matic Mumbai
 * price: always an integer, in units the lowest possible unit of that cryptocurrency
 * rnd: a random number, to be generated in front end for each different query
 * timeValidUntil: when will the buynow end (Thursday, 23 September 2021 11:16:50)
 */
 
 const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d';
-const currencyId = 0;
-const price = 345;
+const currencyId = 5;
+const price = '25000000000000000000'; // 1 Matic has 18 decimal places (wei)
 const rnd = 12342234;
-const timeValidUntil = '1632395810';
-const assetId = '36771977682424071759165601888702044610709221343463';
+const timeValidUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).getTime(); // valid until now + 30 days
+const assetId = '1323670193982095279720018935410432016577612278807559767777050746316836';
 
 // Preparing the query
 
@@ -61,7 +61,7 @@ mutation {
     input: { 
       assetId: "${assetId}", 
       currencyId: ${currencyId}, 
-      price: ${price}, 
+      price: "${price}", 
       rnd: ${rnd}, 
       validUntil: "${validUntil}", 
       signature: "${signatureWithout0x}",
@@ -70,3 +70,5 @@ mutation {
 }`;
 
 console.log(putForSaleMutation);
+console.log('This mutation requires an authorization token in the headers');
+console.log('lease check gernerate_auth_token.js');
