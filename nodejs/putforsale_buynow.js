@@ -16,7 +16,7 @@ const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d'
 const currencyId = 5;
 const price = '25000000000000000000'; // 1 Matic has 18 decimal places (wei)
 const rnd = 12342234;
-const timeValidUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).getTime(); // valid until now + 30 days
+const timeValidUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).getTime(); // valid for 30 days
 const assetId = '1323670193982095279720018935410432016577612278807559767777050746316836';
 
 // Preparing the query
