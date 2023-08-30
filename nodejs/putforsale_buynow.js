@@ -9,7 +9,7 @@ INPUTS:
 * currencyId: e.g. currencyId = 5 for Matic Mumbai
 * price: always an integer, in units the lowest possible unit of that cryptocurrency
 * rnd: a random number, to be generated in front end for each different query
-* timeValidUntil: when will the buynow end (Thursday, 23 September 2021 11:16:50)
+* timeValidUntil: when will the buynow end (e.g. December 31st, 2023, at midnight)
 */
 
 const pvk = '0xd2827f4c3778758eb51719a698464aaffd10a5c7cf816c1de83c5e446bfc8e8d';
