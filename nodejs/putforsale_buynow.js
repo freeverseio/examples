@@ -71,4 +71,4 @@ mutation {
 
 console.log(putForSaleMutation);
 console.log('This mutation requires an authorization token in the headers');
-console.log('lease check gernerate_auth_token.js');
+console.log('Please check generate_auth_token.js');
