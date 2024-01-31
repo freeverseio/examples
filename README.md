@@ -1,5 +1,8 @@
-# Freeverse API Examples
-This repository provides examples of how to use the public Freeverse packages created for NodeJS.
+# Living Assets Layer-2 Examples
+This repository provides examples of how to use the public libraries developed within the context of the Living Assets
+Layer-2. Checkout the [main developer's site](https://dev.livingassets.io/) for general context and API documentation.
+
+Checkout the [LAOS Layer-1](https://laosnetwork.io/) project for the evolution of the Layer-2 into something significantly more powerful. 
 
 ## Setup
 
